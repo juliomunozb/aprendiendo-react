@@ -30,6 +30,7 @@ module.exports = {
     'react'
   ],
   rules: {
-    'react/react-in-jsx-scope': 'off'
+    'react/prop-types': 'off', // Desactivar las proptypes
+    'react/react-in-jsx-scope': 'off' //  Does not show error: 'React' must be in scope when using JSX react/react-in-jsx-scope
   }
 }
