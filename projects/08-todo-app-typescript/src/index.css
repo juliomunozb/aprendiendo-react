@@ -1,0 +1,4 @@
+html {
+  /*intercambia los colores blanco y negro, así como las tonalidades con sus complementarias*/
+  filter: invert(1);
+}

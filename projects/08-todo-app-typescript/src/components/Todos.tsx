@@ -2,10 +2,11 @@ import { type ListOfTodos } from '../types'
 import { Todo } from './Todo'
 interface Props {
   todos: ListOfTodos
+  onRemoveTodo: (id: string) => void
 }
 // Se pasa un tipo generico por que la Props pueden tener cualquier forma
 // Se debe indicar la forma que tienen las Props
-const Todos: React.FC<Props> = ({ todos }) => {
+const Todos: React.FC<Props> = ({ todos, onRemoveTodo }) => {
   return (
     <ul className='todo-list'>
       {todos.map((todo) => (
@@ -15,6 +16,7 @@ const Todos: React.FC<Props> = ({ todos }) => {
             id={todo.id}
             title={todo.title}
             completed={todo.completed}
+            onRemoveTodo={onRemoveTodo}
           />
         </li>
       ))}
