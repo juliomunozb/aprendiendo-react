@@ -1,3 +1,4 @@
+import { type TODO_FILTERS } from './const'
 // types.d.ts = Que el archivo no va a tener código, solo las declaraciones de los types
 // Types: Significa que es un archivo de types
 // d: Que son las declaraciones
@@ -13,3 +14,5 @@ export type TodoCompleted = Pick<Todo, 'completed'>
 export type TodoIdCompleted = Pick<TodoType, 'id' | 'completed'>
 
 export type ListOfTodos = Todo[]
+
+export type filterValue = typeof TODO_FILTERS[keyof typeof TODO_FILTERS]
