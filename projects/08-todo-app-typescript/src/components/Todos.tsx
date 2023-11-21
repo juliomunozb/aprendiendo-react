@@ -1,8 +1,8 @@
-import { type ListOfTodos } from '../types'
+import { type ListOfTodos, type TodoId } from '../types'
 import { Todo } from './Todo'
 interface Props {
   todos: ListOfTodos
-  onRemoveTodo: (id: string) => void
+  onRemoveTodo: ({ id }: TodoId) => void
 }
 // Se pasa un tipo generico por que la Props pueden tener cualquier forma
 // Se debe indicar la forma que tienen las Props
