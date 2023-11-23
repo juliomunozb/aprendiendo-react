@@ -15,4 +15,4 @@ export type TodoIdCompleted = Pick<TodoType, 'id' | 'completed'>
 
 export type ListOfTodos = Todo[]
 
-export type filterValue = typeof TODO_FILTERS[keyof typeof TODO_FILTERS]
+export type FilterValue = typeof TODO_FILTERS[keyof typeof TODO_FILTERS]

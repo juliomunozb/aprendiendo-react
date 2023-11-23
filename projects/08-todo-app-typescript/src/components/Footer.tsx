@@ -1,15 +1,15 @@
-import { type filterValue } from '../types'
+import { type FilterValue } from '../types'
 import { Filters } from './Filters'
 interface Props {
   activeCount: number
   completedCount: number
-  filterSelected: filterValue
+  filterSelected: FilterValue
   onClearCompleted: () => void
-  handleFilterChange: (filter: filterValue) => void
+  handleFilterChange: (filter: FilterValue) => void
 }
 export const Footer: React.FC<Props> = ({
-  activeCount = 0,
-  completedCount = 0,
+  activeCount,
+  completedCount,
   filterSelected,
   handleFilterChange,
   onClearCompleted

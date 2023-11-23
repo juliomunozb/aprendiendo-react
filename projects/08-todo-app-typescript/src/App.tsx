@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Todos from './components/Todos'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
-import { type filterValue, type TodoId, type Todo as TodoType, type TodoTitle } from './types'
+import { type FilterValue, type TodoId, type Todo as TodoType, type TodoTitle } from './types'
 import { TODO_FILTERS } from './const'
 const mockTodos = [
   {
@@ -23,7 +23,19 @@ const mockTodos = [
 ]
 const App = (): JSX.Element => {
   const [todos, setTodos] = useState(mockTodos)
-  const [filterSelected, setfilterSelected] = useState<filterValue>(TODO_FILTERS.ALL)
+  const [filterSelected, setfilterSelected] = useState<FilterValue>(() => {
+    // read from url query params using URLSearchParams
+    const params = new URLSearchParams(window.location.search)
+    const filter = params.get('filter') as FilterValue | null
+
+    if (filter === null) return TODO_FILTERS.ALL
+    // check filter is valid, if not return ALL
+    return Object
+      .values(TODO_FILTERS)// retornando los valores del objeto
+      .includes(filter)// validar si el valor del filtro existe dentro de los valores del objeto
+      ? filter
+      : TODO_FILTERS.ALL
+  })
 
   const handleRemove = ({ id }: TodoId): void => {
     const newTodos = todos.filter(todo => todo.id !== id)
@@ -44,8 +56,11 @@ const App = (): JSX.Element => {
     setTodos(newTodos)
   }
 
-  const handleFilterChange = (filter: filterValue): void => {
+  const handleFilterChange = (filter: FilterValue): void => {
     setfilterSelected(filter)
+    const params = new URLSearchParams(window.location.search)
+    params.set('filter', filter)
+    window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`)
   }
   const handleRemoveCompleted = (): void => {
     const newTodos = todos.filter(todo => !todo.completed)
