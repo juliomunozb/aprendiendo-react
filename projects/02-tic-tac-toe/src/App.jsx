@@ -6,8 +6,12 @@ const TURNS = {
 }
 // Cuadrado de cada posicion del tablero
 const Square = ({ children, isSelected, updateBoard, index }) => {
+  const className = `square ${isSelected ? 'is-selected' : ''}`
+  const handleClick = () => {
+    updateBoard()
+  }
   return (
-    <div className='square'>
+    <div onClick={handleClick} className={className}>
       {children}
     </div>
   )
@@ -16,7 +20,12 @@ const Square = ({ children, isSelected, updateBoard, index }) => {
 function App () {
   // Crea un array y signa el estado inicial con todos los valores a null
   const [board, setBoard] = useState(Array(9).fill(null))
-
+  // Creando estado para saber a quien le toca el turno
+  const [turn, setTurn] = useState(TURNS.X)
+  const updateBoard = () => {
+    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
+    setTurn(newTurn)
+  }
   return (
     <main className='board'>
       <h1>Tic Tact Toe</h1>
@@ -27,12 +36,21 @@ function App () {
               <Square
                 key={index}
                 index={index}
+                updateBoard={updateBoard}
               >
                 {board[index]}
               </Square>
             )
           })
         }
+      </section>
+      <section className='turn'>
+        <Square isSelected={turn === TURNS.X}>
+          {TURNS.X}
+        </Square>
+        <Square isSelected={turn === TURNS.O}>
+          {TURNS.O}
+        </Square>
       </section>
     </main>
   )
