@@ -24,12 +24,13 @@ function App () {
   const [turn, setTurn] = useState(TURNS.X)
 
   const updateBoard = (index) => {
+    // No actualizar posicion si ya se tiene algo
+    if (board[index]) return
+
     // Copiando el table para mostrar visualmente la jugada
     const newBoard = [...board] // Se hace copia del board por que no se deberia mutar el estado original.
     newBoard[index] = turn // Asignando valor X u O
     setBoard(newBoard)
-
-    console.log('index:', index, 'Posicion:', newBoard[index], 'Nuevo Tablero:', newBoard)
 
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
