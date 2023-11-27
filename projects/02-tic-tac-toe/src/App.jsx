@@ -48,6 +48,8 @@ function App () {
     const newWinner = checkWinter(newBoard)
     if (newWinner) {
       setWinner(newWinner)
+    } else if (checkEndGame(newBoard)) {
+      setWinner(false)
     }
 
     // Cambiar el turno
@@ -74,6 +76,12 @@ function App () {
     setBoard(Array(9).fill(null))
     setTurn(TURNS.X)
     setWinner(null)
+  }
+
+  const checkEndGame = (newBoard) => {
+    // revisaremos si no hay empate
+    // Si no hay mas espacios vacios en el trablero
+    return newBoard.every((square) => square !== null)
   }
 
   return (
