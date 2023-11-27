@@ -8,7 +8,7 @@ const TURNS = {
 const Square = ({ children, isSelected, updateBoard, index }) => {
   const className = `square ${isSelected ? 'is-selected' : ''}`
   const handleClick = () => {
-    updateBoard()
+    updateBoard(index)
   }
   return (
     <div onClick={handleClick} className={className}>
@@ -22,7 +22,15 @@ function App () {
   const [board, setBoard] = useState(Array(9).fill(null))
   // Creando estado para saber a quien le toca el turno
   const [turn, setTurn] = useState(TURNS.X)
-  const updateBoard = () => {
+
+  const updateBoard = (index) => {
+    // Copiando el table para mostrar visualmente la jugada
+    const newBoard = [...board] // Se hace copia del board por que no se deberia mutar el estado original.
+    newBoard[index] = turn // Asignando valor X u O
+    setBoard(newBoard)
+
+    console.log('index:', index, 'Posicion:', newBoard[index], 'Nuevo Tablero:', newBoard)
+
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
   }
