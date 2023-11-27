@@ -69,9 +69,17 @@ function App () {
     }
     return null
   }
+
+  const resetGame = () => {
+    setBoard(Array(9).fill(null))
+    setTurn(TURNS.X)
+    setWinner(null)
+  }
+
   return (
     <main className='board'>
       <h1>Tic Tact Toe</h1>
+      <button onClick={resetGame}> Reset del juego</button>
       <section className='game'>
         {
           board.map((cell, index) => {
@@ -111,6 +119,11 @@ function App () {
                 winner && <Square>{winner}</Square>
               }
             </header>
+            <footer>
+              <button onClick={resetGame}>
+                Empezar de nuevo
+              </button>
+            </footer>
           </div>
         </section>
       )
