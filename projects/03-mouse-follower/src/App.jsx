@@ -5,12 +5,11 @@ function App () {
   const [enable, setEnable] = useState(false)
   const [position, setPotition] = useState({ x: 0, y: 0 })
 
+  // pointer move
   useEffect(() => {
-    console.log('Effect', { enable })
-
+    console.log('effect ', { enable })
     const handleMove = (event) => {
       const { clientX, clientY } = event
-      console.log('handleMove', { clientX, clientY })
       setPotition({ x: clientX, y: clientY })
     }
 
@@ -28,6 +27,13 @@ function App () {
     }
   }, [enable])
 
+  // change body className
+  useEffect(() => {
+    document.body.classList.toggle('no-cursor', enable)
+    return () => {
+      document.body.classList.remove('no-cursor')
+    }
+  }, [enable])
   return (
     <main>
       <div
