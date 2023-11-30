@@ -8,24 +8,24 @@ export function App () {
   const [image, setImage] = useState()
   const [factError, setFactError] = useState()
 
+  const getRandomFact = async () => {
+    try {
+      const response = await fetch(CAT_ENDPOINT_RANDOM_CAT)
+      if (!response.ok) {
+        setFactError('Error feching fact')
+        throw new Error('Error feching fact')
+      }
+      const data = await response.json()
+      const { fact } = data
+      setFact(fact)
+    } catch (error) {
+      setFactError('Error in: 1. response fact Or 2.  In the request')
+      throw error
+    }
+  }
+
   // para recuperar la cita al cargar la página
   useEffect(() => {
-    const getRandomFact = async () => {
-      try {
-        const response = await fetch(CAT_ENDPOINT_RANDOM_CAT)
-
-        if (!response.ok) {
-          setFactError('Error feching fact')
-          throw new Error('Error feching fact')
-        }
-        const data = await response.json()
-        const { fact } = data
-        setFact(fact)
-      } catch (error) {
-        setFactError('Error in: 1. response fact Or 2.  In the request')
-        throw error
-      }
-    }
     getRandomFact()
   }, [])
 
@@ -42,8 +42,13 @@ export function App () {
       })
   }, [fact])
 
+  const handleClick = () => {
+    getRandomFact()
+  }
+
   return (
     <main>
+      <button onClick={handleClick}>Get new fact</button>
       <h1>App Gatos</h1>
       {fact && <p>{fact}</p>}
       {image && <p><img src={`${CAT_PREFIX_IMAGE_URL}${image}`} alt={`Image extracted using the first three words for ${fact}`} /></p>}
