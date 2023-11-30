@@ -6,18 +6,24 @@ const CAT_PREFIX_IMAGE_URL = 'https://cataas.com/'
 export function App () {
   const [fact, setFact] = useState()
   const [image, setImage] = useState()
+  const [factError, setFactError] = useState()
 
   // para recuperar la cita al cargar la página
   useEffect(() => {
-    console.log('useEffect Cita', { fact })
     const getRandomFact = async () => {
       try {
         const response = await fetch(CAT_ENDPOINT_RANDOM_CAT)
+
+        if (!response.ok) {
+          setFactError('Error feching fact')
+          throw new Error('Error feching fact')
+        }
         const data = await response.json()
         const { fact } = data
         setFact(fact)
       } catch (error) {
-        console.log('Error Invocando API', error.message)
+        setFactError('Error in: 1. response fact Or 2.  In the request')
+        throw error
       }
     }
     getRandomFact()
@@ -25,7 +31,6 @@ export function App () {
 
   // para recuperar la imagen cada vez que se tiene una cita nueva
   useEffect(() => {
-    console.log('useEffect Imagen', { fact })
     if (!fact) return
     const threeFirstWords = fact.split(' ', 3).join(' ')
     fetch(`https://cataas.com/cat/says/${threeFirstWords}?size=50&color=red&json=true`)
@@ -42,6 +47,10 @@ export function App () {
       <h1>App Gatos</h1>
       {fact && <p>{fact}</p>}
       {image && <p><img src={`${CAT_PREFIX_IMAGE_URL}${image}`} alt={`Image extracted using the first three words for ${fact}`} /></p>}
+      <section>
+        {factError && <p>{factError}</p>}
+      </section>
     </main>
+
   )
 }
