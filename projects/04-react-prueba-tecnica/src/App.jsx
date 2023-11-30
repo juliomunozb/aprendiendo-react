@@ -11,6 +11,8 @@ export function App () {
         const data = await response.json()
         const { fact } = data
         setFact(fact)
+        const threeFirstWords = fact.split(' ', 3).join(' ')
+        console.log(threeFirstWords)
       } catch (error) {
         console.log('Error Invocando API', error.message)
       }
