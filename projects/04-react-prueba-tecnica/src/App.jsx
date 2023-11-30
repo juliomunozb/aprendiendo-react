@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-const CAT_ENDPOINT_RANDOM_CAT = 'https://catfact.ninja/fact'
+import { getRandomFact } from './services/facts'
+import { getUrlImage } from './services/image'
 const CAT_PREFIX_IMAGE_URL = 'https://cataas.com/'
 
 export function App () {
@@ -8,42 +9,30 @@ export function App () {
   const [image, setImage] = useState()
   const [factError, setFactError] = useState()
 
-  const getRandomFact = async () => {
-    try {
-      const response = await fetch(CAT_ENDPOINT_RANDOM_CAT)
-      if (!response.ok) {
-        setFactError('Error feching fact')
-        throw new Error('Error feching fact')
-      }
-      const data = await response.json()
-      const { fact } = data
-      setFact(fact)
-    } catch (error) {
-      setFactError('Error in: 1. response fact Or 2.  In the request')
-      throw error
-    }
-  }
-
   // para recuperar la cita al cargar la página
   useEffect(() => {
-    getRandomFact()
+    getRandomFact().then(res => {
+      const fact = res
+      setFact(fact)
+    }).catch(err => {
+      setFactError(err.message)
+    })
   }, [])
 
   // para recuperar la imagen cada vez que se tiene una cita nueva
   useEffect(() => {
     if (!fact) return
     const threeFirstWords = fact.split(' ', 3).join(' ')
-    fetch(`https://cataas.com/cat/says/${threeFirstWords}?size=50&color=red&json=true`)
-      .then(res => res.json())
-      .then(response => {
-        const { _id } = response
-        const url = `cat/${_id}/says/${threeFirstWords}`
-        setImage(url)
-      })
+    getUrlImage({ threeFirstWords }).then(urlImage => {
+      setImage(urlImage)
+    }).catch(err => {
+      setFactError(err.message)
+    })
   }, [fact])
 
-  const handleClick = () => {
-    getRandomFact()
+  const handleClick = async () => {
+    const newFact = await getRandomFact()
+    setFact(newFact)
   }
 
   return (
