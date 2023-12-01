@@ -1,6 +1,7 @@
 import './App.css'
 import { useCatImage } from './hooks/useCatImage'
 import { useCatFact } from './hooks/useCatFact'
+import { Otro } from './components/Otro'
 
 export function App () {
   const { fact, refreshFact, catFactError } = useCatFact()
@@ -23,7 +24,9 @@ export function App () {
       <section>
         {apiErrors && <p>{apiErrors}</p>}
       </section>
+      <section>
+        <Otro />
+      </section>
     </main>
-
   )
 }
