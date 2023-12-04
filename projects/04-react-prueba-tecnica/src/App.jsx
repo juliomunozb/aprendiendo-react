@@ -1,7 +1,6 @@
 import './App.css'
 import { useCatImage } from './hooks/useCatImage'
 import { useCatFact } from './hooks/useCatFact'
-import { Otro } from './components/Otro'
 
 export function App () {
   const { fact, refreshFact, catFactError } = useCatFact()
@@ -20,12 +19,9 @@ export function App () {
       <button onClick={handleClick}>Get new fact</button>
       <h1>App Gatos</h1>
       {fact && <p>{fact}</p>}
-      {imageUrl && <p><img src={imageUrl} alt={`Image extracted using the first three words for ${fact}`} /></p>}
+      {imageUrl && <img src={imageUrl} alt={`Image extracted using the first three words for ${fact}`} />}
       <section>
-        {apiErrors && <p>{apiErrors}</p>}
-      </section>
-      <section>
-        <Otro />
+        {apiErrors && <spam>{apiErrors}</spam>}
       </section>
     </main>
   )
