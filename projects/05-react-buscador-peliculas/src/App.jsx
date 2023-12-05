@@ -5,6 +5,12 @@ import './App.css'
 
 function App () {
   const movies = responseMovies.Search
+  const mappedMovies = movies?.map((movie) => ({
+    id: movie.imdbID,
+    title: movie.Title,
+    year: movie.Year,
+    poster: movie.Poster
+  }))
 
   return (
     <div className='page'>
@@ -16,7 +22,7 @@ function App () {
         </form>
       </header>
       <main>
-        <Movies movies={movies} />
+        <Movies movies={mappedMovies} />
       </main>
     </div>
   )
