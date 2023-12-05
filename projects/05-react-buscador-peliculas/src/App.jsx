@@ -1,17 +1,16 @@
-import { useRef } from 'react'
 import { Movies } from './components/Movies'
 import { useMovies } from './hooks/useMovies'
 import './App.css'
 
 function App () {
   const { movies } = useMovies()
-  const inputRef = useRef()
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const inputEl = inputRef.current
-    const value = inputEl.value
-    console.log(value)
+    // Captura la data de un solo input
+    const field = new window.FormData(event.target)// target se refiere al evento, al propio formulario
+    const query = field.get('query')
+    console.log(query)
   }
 
   return (
@@ -19,7 +18,7 @@ function App () {
       <header>
         <h1>Buscador de películas</h1>
         <form className='form' onSubmit={handleSubmit}>
-          <input ref={inputRef} type='text' placeholder='Avenger, Star Wars, The Matrix,..' />
+          <input name='query' type='text' placeholder='Avenger, Star Wars, The Matrix,..' />
           <button type='submit'> Buscar</button>
         </form>
       </header>
