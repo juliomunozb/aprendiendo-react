@@ -7,10 +7,9 @@ function App () {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    // Captura la data de un solo input
-    const field = new window.FormData(event.target)// target se refiere al evento, al propio formulario
-    const query = field.get('query')
-    console.log(query)
+    // Captura la data para varios input
+    const fields = Object.fromEntries(new window.FormData(event.target))// target se refiere al evento, al propio formulario
+    console.log(fields)
   }
 
   return (
@@ -19,6 +18,8 @@ function App () {
         <h1>Buscador de películas</h1>
         <form className='form' onSubmit={handleSubmit}>
           <input name='query' type='text' placeholder='Avenger, Star Wars, The Matrix,..' />
+          <input name='query2' type='text' placeholder='Avenger, Star Wars, The Matrix,..' />
+          <input name='query3' type='text' placeholder='Avenger, Star Wars, The Matrix,..' />
           <button type='submit'> Buscar</button>
         </form>
       </header>
