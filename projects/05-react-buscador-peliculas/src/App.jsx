@@ -40,7 +40,15 @@ function App () {
       <header>
         <h1>Buscador de películas</h1>
         <form className='form' onSubmit={handleSubmit}>
-          <input onChange={handleOnchange} type='text' placeholder='Avenger, Star Wars, The Matrix,..' />
+          <input
+            style={{
+              border: '1px solid transparent',
+              borderColor: error ? 'red' : 'transparent'
+            }}
+            onChange={handleOnchange}
+            type='text'
+            placeholder='Avenger, Star Wars, The Matrix,..'
+          />
           <button type='submit'> Buscar</button>
         </form>
       </header>
