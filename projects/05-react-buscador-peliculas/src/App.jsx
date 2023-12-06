@@ -1,7 +1,7 @@
 import { Movies } from './components/Movies'
 import { useMovies } from './hooks/useMovies'
 import './App.css'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 function App () {
   const { movies } = useMovies()
@@ -13,15 +13,14 @@ function App () {
   }
 
   const handleOnchange = (event) => {
-    setQuery(event.target.value)
-  }
-
-  useEffect(() => {
-    if (query === '') {
+    // Asegurar que se esta utilizando el ultimo valor
+    const newQuery = event.target.value
+    setQuery(newQuery)
+    if (newQuery === '') {
       setError('No se puede buscar una película vacía')
       return
     }
-    if (query.length < 3) {
+    if (newQuery.length < 3) {
       setError('La busqueda debe tener más de 3 caractéres')
       return
     }
@@ -29,12 +28,12 @@ function App () {
     // ^  : Coincide con el inicio de la cadena
     // \d : Busca cualquier dígito (número arábigo). Equivalente a [0-9]
     // +$ : Coincide con el inicio de la cadena
-    if (query.match(/^\d+$/)) {
+    if (newQuery.match(/^\d+$/)) {
       setError('No se permiten busquedas de solo numeros')
       return
     }
     setError(null)
-  }, [query])
+  }
 
   return (
     <div className='page'>
