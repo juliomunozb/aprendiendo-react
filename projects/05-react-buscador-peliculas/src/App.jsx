@@ -1,26 +1,17 @@
 import { Movies } from './components/Movies'
 import { useMovies } from './hooks/useMovies'
 import './App.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-function App () {
-  const { movies } = useMovies()
-  const [query, setQuery] = useState('')
+function useSearch () {
+  const [search, updateSearch] = useState('')
   const [error, setError] = useState(null)
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    console.log({ query })
-  }
-
-  const handleOnchange = (event) => {
-    // Asegurar que se esta utilizando el ultimo valor
-    const newQuery = event.target.value
-    setQuery(newQuery)
-    if (newQuery === '') {
+  useEffect(() => {
+    if (search === '') {
       setError('No se puede buscar una película vacía')
       return
     }
-    if (newQuery.length < 3) {
+    if (search.length < 3) {
       setError('La busqueda debe tener más de 3 caractéres')
       return
     }
@@ -28,11 +19,27 @@ function App () {
     // ^  : Coincide con el inicio de la cadena
     // \d : Busca cualquier dígito (número arábigo). Equivalente a [0-9]
     // +$ : Coincide con el inicio de la cadena
-    if (newQuery.match(/^\d+$/)) {
+    if (search.match(/^\d+$/)) {
       setError('No se permiten busquedas de solo numeros')
       return
     }
     setError(null)
+  }, [search])
+
+  return { search, updateSearch, error }
+}
+
+function App () {
+  const { movies } = useMovies()
+  const { search, updateSearch, error } = useSearch()
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    console.log({ search })
+  }
+
+  const handleOnchange = (event) => {
+    updateSearch(event.target.value)
   }
 
   return (
@@ -46,6 +53,7 @@ function App () {
               borderColor: error ? 'red' : 'transparent'
             }}
             onChange={handleOnchange}
+            value={search}
             type='text'
             placeholder='Avenger, Star Wars, The Matrix,..'
           />
