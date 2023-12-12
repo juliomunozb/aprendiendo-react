@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useMemo } from 'react'
 import { searchMovies } from '../services/movies.js'
 
 export function useMovies ({ search, sort }) {
@@ -7,7 +7,7 @@ export function useMovies ({ search, sort }) {
   const [errors, setErrors] = useState(null)
   const previousSearch = useRef(search) // No se vuelve a renderizar
 
-  // Se reacrea cada vez que se renderiza el cuerpo del componente o del customhook
+  // Se recrea cada vez que se renderiza el cuerpo del componente o del customhook
   const getMovies = async () => {
     if (search === previousSearch.current) return
     try {
@@ -21,16 +21,13 @@ export function useMovies ({ search, sort }) {
       setLoading(false)
     }
   }
-
-  const getSortedMovies = () => {
+  // se realizar el sort solo cuando haya cambio en el sort o en las peliculas
+  const sortedMovies = useMemo(() => {
     console.log('getSortedMovies')
-    const sortedMovies =
-    sort
+    return sort
       ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
       : movies
+  }, [sort, movies])
 
-    return sortedMovies
-  }
-
-  return { movies: getSortedMovies(movies), getMovies, loading, errors }
+  return { movies: sortedMovies, getMovies, loading, errors }
 }
