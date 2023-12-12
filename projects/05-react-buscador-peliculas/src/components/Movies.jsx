@@ -17,11 +17,12 @@ function ListOfMovies ({ movies }) {
 const NoMoviesResult = () => {
   return (<p>No se encontraron películas para esta busqueda</p>)
 }
-
 export function Movies ({ movies }) {
   const hasmovies = movies?.length > 0
   return (
     hasmovies
       ? <ListOfMovies movies={movies} />
-      : <NoMoviesResult />)
+      : <NoMoviesResult />
+
+  )
 }

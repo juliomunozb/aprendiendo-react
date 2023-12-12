@@ -2,16 +2,19 @@ import { Movies } from './components/Movies'
 import { useMovies } from './hooks/useMovies'
 import './App.css'
 import { useEffect, useRef, useState } from 'react'
+import { LoadingSpinner } from './components/LoadingSpinner'
 
 function useSearch () {
   const [search, updateSearch] = useState('')
   const [error, setError] = useState(null)
   const isFirstInput = useRef(true)
+
   useEffect(() => {
     if (isFirstInput.current) {
       isFirstInput.current = search === ''
       return
     }
+
     if (search === '') {
       setError('No se puede buscar una película vacía')
       return
@@ -36,7 +39,7 @@ function useSearch () {
 
 function App () {
   const { search, updateSearch, error } = useSearch()
-  const { movies, getMovies } = useMovies({ search })
+  const { movies, getMovies, loading, errors } = useMovies({ search })
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -62,12 +65,12 @@ function App () {
             type='text'
             placeholder='Avenger, Star Wars, The Matrix,..'
           />
-          <button type='submit'> Buscar</button>
+          <button type='submit' disabled={loading}> Buscar</button>
         </form>
       </header>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {(error || errors) && <p style={{ color: 'red' }}>{error} <br /> {errors}</p>}
       <main>
-        <Movies movies={movies} />
+        {loading ? <LoadingSpinner /> : <Movies movies={movies} />}
       </main>
     </div>
   )
