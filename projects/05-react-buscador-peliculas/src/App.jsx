@@ -1,8 +1,9 @@
 import { Movies } from './components/Movies'
 import { useMovies } from './hooks/useMovies'
 import './App.css'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { LoadingSpinner } from './components/LoadingSpinner'
+import debounce from 'just-debounce-it'
 
 function useSearch () {
   const [search, updateSearch] = useState('')
@@ -42,6 +43,13 @@ function App () {
   const { search, updateSearch, error } = useSearch()
   const { movies, getMovies, loading, errors } = useMovies({ search, sort })
 
+  // El useCallback evita que en cada renderizado se vuelva a ejecutar el debounce
+  // debounce evita llamadas excesivas a API al escribir en el campo de búsqueda
+  const debounceGetMovies = useCallback(debounce(search => {
+    getMovies({ search })
+  }, 2000)
+  , [getMovies])
+
   const handleSubmit = (event) => {
     event.preventDefault()
     getMovies({ search })
@@ -50,7 +58,7 @@ function App () {
   const handleOnchange = (event) => {
     const newSearch = event.target.value
     updateSearch(newSearch)
-    getMovies({ search: newSearch })
+    debounceGetMovies(newSearch)
   }
 
   const handleSort = () => {
