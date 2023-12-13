@@ -44,7 +44,7 @@ function App () {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    getMovies()
+    getMovies({ search })
   }
 
   const handleOnchange = (event) => {
@@ -54,6 +54,10 @@ function App () {
   const handleSort = () => {
     setSort(!sort)
   }
+
+  useEffect(() => {
+    console.log('getMovies')
+  }, [getMovies])
 
   return (
     <div className='page'>

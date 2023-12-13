@@ -7,23 +7,27 @@ export function useMovies ({ search, sort }) {
   const [errors, setErrors] = useState(null)
   const previousSearch = useRef(search) // No se vuelve a renderizar
 
-  // Se recrea cada vez que se renderiza el cuerpo del componente o del customhook
-  const getMovies = async () => {
-    if (search === previousSearch.current) return
-    try {
-      previousSearch.current = search
-      setLoading(true)
-      const newMovies = await searchMovies({ search })
-      setMovies(newMovies)
-    } catch (error) {
-      setErrors(error.message)
-    } finally {
-      setLoading(false)
+  // Se recrea(se genera)  la funciona solo una vez
+  // al pasar el parametro {search} dentro de la funcion
+  // Ya no se recrea cada vez que se actualiza el search
+  const getMovies = useMemo(() => {
+    console.log('Entra a getMovies')
+    return async ({ search }) => {
+      if (search === previousSearch.current) return
+      try {
+        previousSearch.current = search
+        setLoading(true)
+        const newMovies = await searchMovies({ search })
+        setMovies(newMovies)
+      } catch (error) {
+        setErrors(error.message)
+      } finally {
+        setLoading(false)
+      }
     }
-  }
+  }, [])
   // se realizar el sort solo cuando haya cambio en el sort o en las peliculas
   const sortedMovies = useMemo(() => {
-    console.log('getSortedMovies')
     return sort
       ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
       : movies
