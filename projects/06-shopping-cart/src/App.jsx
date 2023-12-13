@@ -1,6 +1,6 @@
 function App () {
   return (
-    <h1>Shopping cart</h1>
+    <h1>Shopping cart Shopping Cart 🛒 </h1>
   )
 }
 
