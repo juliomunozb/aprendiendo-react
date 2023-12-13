@@ -55,10 +55,6 @@ function App () {
     setSort(!sort)
   }
 
-  useEffect(() => {
-    console.log('getMovies')
-  }, [getMovies])
-
   return (
     <div className='page'>
       <header>
