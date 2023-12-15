@@ -24,7 +24,7 @@ function App () {
   const filteredProducts = filterProducts(products)
   return (
     <>
-      <Header />
+      <Header changeFilters={setFilter} />
       <Products products={filteredProducts} />
     </>
   )

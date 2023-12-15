@@ -1,9 +1,9 @@
 import { Filters } from './Filters'
-export function Header () {
+export function Header ({ changeFilters }) {
   return (
     <>
       <h1>Shopping Cart 🛒</h1>
-      <Filters />
+      <Filters onChange={changeFilters} />
     </>
   )
 }
