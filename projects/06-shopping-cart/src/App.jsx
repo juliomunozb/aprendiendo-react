@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Products } from './components/Products'
 import { products as inititalProducts } from './mocks/products.json'
+import { Header } from './components/Hearder.jsx'
+
 function App () {
   const [products] = useState(inititalProducts)
   const [filter, setFilter] = useState({
@@ -22,7 +24,7 @@ function App () {
   const filteredProducts = filterProducts(products)
   return (
     <>
-      <h1>Shopping cart Shopping Cart 🛒</h1>
+      <Header />
       <Products products={filteredProducts} />
     </>
   )
