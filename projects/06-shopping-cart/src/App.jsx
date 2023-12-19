@@ -4,6 +4,7 @@ import { products as inititalProducts } from './mocks/products.json'
 import { Header } from './components/Hearder.jsx'
 import { useFilters } from './hooks/useFilters.js'
 import { Footer } from './components/Footer.jsx'
+import { Cart } from './components/Cart.jsx'
 import { IS_DEVELOPMENT } from './config.js'
 
 function App () {
@@ -13,6 +14,7 @@ function App () {
   return (
     <>
       <Header />
+      <Cart />
       <Products products={filteredProducts} />
       {IS_DEVELOPMENT && <Footer />}
     </>
