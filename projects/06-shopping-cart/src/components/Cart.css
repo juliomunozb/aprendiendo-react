@@ -53,7 +53,7 @@
 }
 
 /*Sibling (hermano): 
-Se busca el hermano que este checked
+Se busca el hermano que esté checked,
 Al hermano que es cart, se le aplica el estilo 
 */
 .cart-button ~ input:checked ~ .cart {

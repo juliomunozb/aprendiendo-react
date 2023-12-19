@@ -25,6 +25,10 @@ export function CartProvider ({ children }) {
   }
 
   const removeFromCard = product => {
+    // Puede no acceder al ultimo valor que tiene el estado
+    // es buena practica usar la funcion para recibir el ultimo
+    // valor del estado prevState y devuelve el nueva valor
+    // setCart(cart.filter(item => item.id !== product.id)) //No se recomendable
     setCart(prevState => prevState.filter(item => item.id !== product.id))
   }
 
