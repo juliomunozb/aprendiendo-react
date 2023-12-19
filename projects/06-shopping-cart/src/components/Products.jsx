@@ -2,7 +2,7 @@ import '../components/Products.css'
 import { useCart } from '../hooks/useCart'
 import { AddToCartIcon, RemoveFromCartIcon } from './Icons.jsx'
 export function Products ({ products }) {
-  const { addToCart, cart } = useCart()
+  const { addToCart, removeFromCard, cart } = useCart()
   const checkProductInCar = product => {
     return cart.some(item => item.id === product.id)
   }
@@ -19,7 +19,12 @@ export function Products ({ products }) {
                   <strong>{product.title} - {product.price}</strong>
                 </div>
                 <div>
-                  <button onClick={() => addToCart(product)}>
+                  <button
+                    style={{ background: isProductInCart ? 'red' : '#09f' }} onClick={() =>
+                      isProductInCart
+                        ? removeFromCard(product)
+                        : addToCart(product)}
+                  >
                     {
                       isProductInCart
                         ? <RemoveFromCartIcon />
