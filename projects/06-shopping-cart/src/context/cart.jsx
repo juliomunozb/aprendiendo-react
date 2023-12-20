@@ -1,52 +1,69 @@
-import { createContext, useState } from 'react'
+import { createContext, useReducer } from 'react'
 export const cartContext = createContext()
+// Logica de actulización del estado
+// Se puede utilizar fuera de react
+const inititalState = []
+const reducer = (state, action) => {
+  const { type: actionType, payload: actionPayload } = action
+  switch (actionType) {
+    case 'ADD_TO_CART':{
+      const { id } = actionPayload
+      const productInCartIndex = state.findIndex(item => item.id === id)
+      if (productInCartIndex >= 0) {
+        // Copia profunda del objeto
+        const newState = structuredClone(state)
+        newState[productInCartIndex].quantity += 1
+        return newState
+      }
 
-export function CartProvider ({ children }) {
-  const [cart, setCart] = useState([])
-
-  const addToCart = product => {
-    // Check if product exist in the cart
-    const productInCartIndex = cart.findIndex(item => item.id === product.id)
-    if (productInCartIndex >= 0) {
-      // Copia profunda del objeto
-      const newCart = structuredClone(cart)
-      newCart[productInCartIndex].quantity += 1
-      return setCart(newCart)
-    }
-    // Product not exist in the cart
-    setCart(prevState => (
-      [...prevState,
+      return [
+        ...state,
         {
-          ...product,
+          ...actionPayload,
           quantity: 1
         }
       ]
-    ))
+    }
+
+    case 'REMOVE_FROM_CART':{
+      const { id } = actionPayload
+      return state.filter(item => item.id !== id)
+    }
+
+    case 'CLEAR_CART':{
+      return inititalState
+    }
   }
 
-  const removeFromCard = product => {
-    // Puede no acceder al ultimo valor que tiene el estado
-    // es buena practica usar la funcion para recibir el ultimo
-    // valor del estado prevState y devuelve el nueva valor
-    // setCart(cart.filter(item => item.id !== product.id)) //No se recomendable
-    setCart(prevState => prevState.filter(item => item.id !== product.id))
-  }
+  return state
+}
 
-  const clearCart = () => {
-    setCart([])
-  }
+export function CartProvider ({ children }) {
+  const [state, dispatch] = useReducer(reducer, inititalState)
+  const addToCart = product => dispatch({
+    type: 'ADD_TO_CART',
+    payload: product
+  })
+
+  const removeFromCard = product => dispatch({
+    type: 'REMOVE_FROM_CART',
+    payload: product
+  })
+
+  const clearCart = () => dispatch({
+    type: 'CLEAR_CART'
+  })
 
   const numberItemsInCart = () => {
-    return cart?.length
+    return state?.length
   }
   return (
     <cartContext.Provider value={{
-      cart,
+      cart: state,
       addToCart,
       removeFromCard,
       clearCart,
       numberItemsInCart
-
     }}
     >
       {children}
