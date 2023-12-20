@@ -1,3 +1,9 @@
+.label-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .cart {
   background: #000;
   display: none;
@@ -6,6 +12,8 @@
   right: 0px;
   top: 0px;
   width: 200px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 .cart img {
@@ -46,6 +54,11 @@
   transition: all 0.3s ease;
   width: 32px;
   z-index: 9999;
+}
+
+.cart-button-number {
+  border: 3px solid red;
+  font-size: 0.7em;
 }
 
 .cart-button:hover {

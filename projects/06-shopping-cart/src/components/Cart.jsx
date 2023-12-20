@@ -21,11 +21,13 @@ function CartItem ({ thumbnail, price, title, quantity, addToCart }) {
 }
 export function Cart () {
   const cartCheckboxId = useId()
-  const { cart, clearCart, addToCart } = useCart()
+  const { cart, clearCart, addToCart, numberItemsInCart } = useCart()
+  const className = numberItemsInCart() >= 1 ? 'label-cart cart-button cart-button-number' : 'label-cart cart-button'
   return (
     <>
-      <label htmlFor={cartCheckboxId} className='cart-button'>
+      <label htmlFor={cartCheckboxId} className={className}>
         <CartIcon />
+        {numberItemsInCart() > 0 ? <span>{numberItemsInCart()}</span> : ''}
       </label>
       <input id={cartCheckboxId} type='checkbox' hidden />
       <aside className='cart'>

@@ -36,12 +36,17 @@ export function CartProvider ({ children }) {
     setCart([])
   }
 
+  const numberItemsInCart = () => {
+    return cart?.length
+  }
   return (
     <cartContext.Provider value={{
       cart,
       addToCart,
       removeFromCard,
-      clearCart
+      clearCart,
+      numberItemsInCart
+
     }}
     >
       {children}
