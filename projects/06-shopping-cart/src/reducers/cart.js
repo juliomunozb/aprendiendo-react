@@ -18,7 +18,7 @@ const UPDATE_STATE_BY_ACTION = {
       newState[productInCartIndex].quantity += 1 */
 
       // 2. Usando map
-      const newState = state.map(item => {
+      /* const newState = state.map(item => {
         if (item.id === id) {
           return {
             ...item,
@@ -26,7 +26,17 @@ const UPDATE_STATE_BY_ACTION = {
           }
         }
         return item
-      })
+      }) */
+
+      // 3. Usando spread operator y slice
+      const newState = [
+        ...state.slice(0, productInCartIndex),
+        {
+          ...state[productInCartIndex],
+          quantity: state[productInCartIndex].quantity + 1
+        },
+        ...state.slice(productInCartIndex + 1)
+      ]
       updateCartToStorage(newState)
       return newState
     }
