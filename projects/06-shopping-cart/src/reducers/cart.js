@@ -14,8 +14,8 @@ const UPDATE_STATE_BY_ACTION = {
     if (productInCartIndex >= 0) {
       // Manera de hacer copiar de objeto:
       // 1.  Copia profunda del objeto con structuredClone
-      /* const newState = structuredClone(state)
-      newState[productInCartIndex].quantity += 1 */
+      const newState = structuredClone(state)
+      newState[productInCartIndex].quantity += 1
 
       // 2. Usando map
       /* const newState = state.map(item => {
@@ -29,14 +29,14 @@ const UPDATE_STATE_BY_ACTION = {
       }) */
 
       // 3. Usando spread operator y slice
-      const newState = [
+      /* const newState = [
         ...state.slice(0, productInCartIndex),
         {
           ...state[productInCartIndex],
           quantity: state[productInCartIndex].quantity + 1
         },
         ...state.slice(productInCartIndex + 1)
-      ]
+      ] */
       updateCartToStorage(newState)
       return newState
     }
