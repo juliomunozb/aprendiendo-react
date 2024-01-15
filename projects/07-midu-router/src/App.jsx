@@ -1,12 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
-
+const NAVEGTATION_EVENT = 'pushstate'
+// crear navegación sin reacargar página
+// Cambiar la url de la barra de direciones
+function navigate (href) {
+  // cambia la url que se ve en el browser, a la que se quiere ir
+  window.history.pushState({}, '', href)
+  // Crear evento perzonalizado para avisar que se a creado la url
+  const navigationEvent = new Event(NAVEGTATION_EVENT)
+  // Despachar el evento
+  window.dispatchEvent(navigationEvent)
+}
 function Home () {
   return (
     <>
       <h1>Home</h1>
       <p>Página de ejemplo para crear un react router desde cero</p>
-      <a href='/about'>Ir a sobre nosotros</a>
+      <button onClick={() => navigate('/about')}>Ir a sobre nosotros</button>
     </>
   )
 }
@@ -21,14 +31,23 @@ function About () {
           Hola, me llamo Julio y estoy practicando react, creando un clon de React Router
         </p>
       </div>
-      <a href='/'>Ir al home </a>
+      <button onClick={() => navigate('/')}>Ir al home </button>
     </>
   )
 }
 
 function App () {
   const [currentPath, setCurrentPath] = useState(window.location.pathname)
-  console.log(currentPath)
+  useEffect(() => {
+    const onLocationChange = () => {
+      setCurrentPath(window.location.pathname)
+    }
+    window.addEventListener(NAVEGTATION_EVENT, onLocationChange)
+    return () => {
+      window.removeEventListener(NAVEGTATION_EVENT, onLocationChange)
+    }
+  }, [])
+
   return (
     <main>
       {currentPath === '/' && <Home />}
