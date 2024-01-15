@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-const NAVEGTATION_EVENT = 'pushstate'
+import { EVENT } from './const'
+
 // crear navegación sin reacargar página
 // Cambiar la url de la barra de direciones
 function navigate (href) {
   // cambia la url que se ve en el browser, a la que se quiere ir
   window.history.pushState({}, '', href)
   // Crear evento perzonalizado para avisar que se a creado la url
-  const navigationEvent = new Event(NAVEGTATION_EVENT)
+  const navigationEvent = new Event(EVENT.PUSHSTATE)
   // Despachar el evento
   window.dispatchEvent(navigationEvent)
 }
@@ -42,9 +43,11 @@ function App () {
     const onLocationChange = () => {
       setCurrentPath(window.location.pathname)
     }
-    window.addEventListener(NAVEGTATION_EVENT, onLocationChange)
+    window.addEventListener(EVENT.PUSHSTATE, onLocationChange)
+    window.addEventListener(EVENT.POPSTATE, onLocationChange)
     return () => {
-      window.removeEventListener(NAVEGTATION_EVENT, onLocationChange)
+      window.removeEventListener(EVENT.PUSHSTATE, onLocationChange)
+      window.removeEventListener(EVENT.POPSTATE, onLocationChange)
     }
   }, [])
 
