@@ -23,5 +23,8 @@ export function Link ({ target, to, ...props }) {
       navigate(to) // Navegación con SPA
     }
   }
+  // No se define directamente el children por que al pasar las ...props
+  // se esta incluyendo la propiedad children={props.children}
+  // <a onClick={handleClick} href={to} target={target} children={props.children} {...props} />
   return <a onClick={handleClick} href={to} target={target} {...props} />
 }
