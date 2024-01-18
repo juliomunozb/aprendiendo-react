@@ -1,4 +1,4 @@
-import { EVENT } from './const.js'
+import { BUTTON, EVENT } from './const.js'
 // crear navegación sin reacargar página
 // Cambiar la url de la barra de direciones
 export function navigate (href) {
@@ -12,7 +12,7 @@ export function navigate (href) {
 
 export function Link ({ target, to, ...props }) {
   const handleClick = (event) => {
-    const isMainEvent = event.button === 0 // botón redecho del mouse
+    const isMainEvent = event.button === BUTTON.primary // botón redecho del mouse
     const isModifiedEvent = event.metaKey || event.altKey || event.ctrlKey || event.shiftKey // si se oprimen teclar Mayusculas, alt, ctrl, shift
     const isManageableEvent = target === undefined || target === '_self' // si enlace se abre en la misma ventana
 
