@@ -1,4 +1,5 @@
 import { Link } from '../Link.jsx'
+console.log('Renderizando componente AboutPage')
 export default function AboutPage () {
   return (
     <>

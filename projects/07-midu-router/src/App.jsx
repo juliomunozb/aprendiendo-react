@@ -1,23 +1,17 @@
+import { lazy, Suspense } from 'react'
 import './App.css'
-import HomePage from './pages/Home.jsx'
-import AboutPage from './pages/About.jsx'
-import Page404 from './pages/Page404.jsx'
+import Page404 from './pages/Page404.jsx'// Importación estática
 import { Search } from './pages/Search.jsx'
 import { Router } from './Router.jsx'
 import { Route } from './Route.jsx'
 
+// Importación dinámica
+const lazyHome = lazy(() => import('./pages/Home.jsx'))
+const lazyAbout = lazy(() => import('./pages/About.jsx'))
+
 function App () {
 // Objeto que declara la ruta
   const appRoutes = [
-    {
-      path: '/',
-      Component: HomePage
-    },
-    {
-      path: '/about',
-      Component: AboutPage
-
-    },
     {
       path: '/search/:query',
       Component: Search
@@ -25,10 +19,12 @@ function App () {
   ]
   return (
     <main>
-      <Router routes={appRoutes} defaultComponent={Page404}>
-        <Route path='/' Component={HomePage} />
-        <Route path='/about' Component={AboutPage} />
-      </Router>
+      <Suspense fallback={null}>
+        <Router routes={appRoutes} defaultComponent={Page404}>
+          <Route path='/' Component={lazyHome} />
+          <Route path='/about' Component={lazyAbout} />
+        </Router>
+      </Suspense>
     </main>
   )
 }
