@@ -13,6 +13,10 @@ function App () {
 // Objeto que declara la ruta
   const appRoutes = [
     {
+      path: '/:lang/about',
+      Component: lazyAbout
+    },
+    {
       path: '/search/:query',
       Component: Search
     }
