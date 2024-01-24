@@ -1,4 +1,4 @@
-import { BUTTON, EVENT } from './const.js'
+import { BUTTON, EVENT } from '../utils/const.js'
 // crear navegación sin reacargar página
 // Cambiar la url de la barra de direciones
 export function navigate (href) {

@@ -2,8 +2,8 @@ import { lazy, Suspense } from 'react'
 import './App.css'
 import Page404 from './pages/Page404.jsx'// Importación estática
 import { Search } from './pages/Search.jsx'
-import { Router } from './Router.jsx'
-import { Route } from './Route.jsx'
+import { Router } from './components/Router.jsx'
+import { Route } from './components/Route.jsx'
 
 // Importación dinámica
 const lazyHome = lazy(() => import('./pages/Home.jsx'))

@@ -1,15 +1,15 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
-import { Router } from './Router.jsx'
-import { Route } from './Route.jsx'
-import { Link } from './Link.jsx'
-import { getCurrentPath } from './utils.js'
+import { Router } from './components/Router.jsx'
+import { Route } from './components/Route.jsx'
+import { Link } from './components/Link.jsx'
+import { getCurrentPath } from './utils/getCurrentPath.js'
 
 // describe: permite agrupar distintos test
 // it: pequeñas porciones de codigo que comprueban algo dentro del componente
 // expect: aserción, forma de decir que se quiere probar el codigo que se escribe
 
-vi.mock('./utils.js', () => ({
+vi.mock('./utils/getCurrentPath.js', () => ({
   getCurrentPath: vi.fn()
 }))
 
