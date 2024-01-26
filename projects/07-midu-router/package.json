@@ -1,6 +1,6 @@
 {
-  "name": "07-midu-router",
-  "version": "0.0.1",
+  "name": "jrmb-midu-router",
+  "version": "0.0.2",
   "type": "module",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -14,10 +14,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "prepare": "swc ./src/components/** ./src/utils/**  ./src/index.jsx -d lib",
+    "prepare": "npm run test && swc ./src/components/** ./src/utils/**  ./src/index.jsx -d lib",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "path-to-regexp": "6.2.1"
