@@ -1,6 +1,6 @@
-export { Router } from './components/Router.jsx'
-export { Route } from './components/Route.jsx'
-export { Link } from './components/Link.jsx'
+export { Router } from './components/Router'
+export { Route } from './components/Route'
+export { Link } from './components/Link'
 
 export function useQueryParams ({ req } = {}) {
   const isServer = typeof window === 'undefined'

@@ -5,56 +5,59 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  jrmb-midu-router:
+    specifier: ^0.0.5
+    version: 0.0.5(react-dom@18.2.0)(react@18.2.0)
   path-to-regexp:
     specifier: 6.2.1
     version: 6.2.1
   react:
-    specifier: ^18.2.0
+    specifier: 18.2.0
     version: 18.2.0
   react-dom:
-    specifier: ^18.2.0
+    specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
 
 devDependencies:
   '@swc/cli':
-    specifier: ^0.3.0
+    specifier: 0.3.0
     version: 0.3.0(@swc/core@1.3.105)
   '@swc/core':
-    specifier: ^1.3.105
+    specifier: 1.3.105
     version: 1.3.105
   '@testing-library/react':
-    specifier: ^14.1.2
+    specifier: 14.1.2
     version: 14.1.2(react-dom@18.2.0)(react@18.2.0)
   '@types/react':
-    specifier: ^18.2.43
-    version: 18.2.48
+    specifier: 18.2.43
+    version: 18.2.43
   '@types/react-dom':
-    specifier: ^18.2.17
-    version: 18.2.18
+    specifier: 18.2.17
+    version: 18.2.17
   '@vitejs/plugin-react-swc':
-    specifier: ^3.5.0
-    version: 3.5.0(vite@5.0.11)
+    specifier: 3.5.0
+    version: 3.5.0(vite@5.0.8)
   eslint:
-    specifier: ^8.55.0
-    version: 8.56.0
+    specifier: 8.55.0
+    version: 8.55.0
   eslint-plugin-react:
-    specifier: ^7.33.2
-    version: 7.33.2(eslint@8.56.0)
+    specifier: 7.33.2
+    version: 7.33.2(eslint@8.55.0)
   eslint-plugin-react-hooks:
-    specifier: ^4.6.0
-    version: 4.6.0(eslint@8.56.0)
+    specifier: 4.6.0
+    version: 4.6.0(eslint@8.55.0)
   eslint-plugin-react-refresh:
-    specifier: ^0.4.5
-    version: 0.4.5(eslint@8.56.0)
+    specifier: 0.4.5
+    version: 0.4.5(eslint@8.55.0)
   happy-dom:
-    specifier: ^13.2.1
-    version: 13.3.1
+    specifier: 13.2.1
+    version: 13.2.1
   vite:
-    specifier: ^5.0.8
-    version: 5.0.11
+    specifier: 5.0.8
+    version: 5.0.8
   vitest:
-    specifier: ^1.2.1
-    version: 1.2.1(happy-dom@13.3.1)
+    specifier: 1.2.1
+    version: 1.2.1(happy-dom@13.2.1)
 
 packages:
 
@@ -299,13 +302,13 @@ packages:
     dev: true
     optional: true
 
-  /@eslint-community/eslint-utils@4.4.0(eslint@8.56.0):
+  /@eslint-community/eslint-utils@4.4.0(eslint@8.55.0):
     resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
     dependencies:
-      eslint: 8.56.0
+      eslint: 8.55.0
       eslint-visitor-keys: 3.4.3
     dev: true
 
@@ -331,8 +334,8 @@ packages:
       - supports-color
     dev: true
 
-  /@eslint/js@8.56.0:
-    resolution: {integrity: sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==}
+  /@eslint/js@8.55.0:
+    resolution: {integrity: sha512-qQfo2mxH5yVom1kacMtZZJFVdW+E70mqHMJvVg6WTLo+VBuQJ4TojZlfWBjK0ve5BdEeNAVxOsl/nvNMpJOaJA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
@@ -690,7 +693,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.8
       '@testing-library/dom': 9.3.4
-      '@types/react-dom': 18.2.18
+      '@types/react-dom': 18.2.17
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: true
@@ -736,14 +739,14 @@ packages:
     resolution: {integrity: sha512-ga8y9v9uyeiLdpKddhxYQkxNDrfvuPrlFb0N1qnZZByvcElJaXthF1UhvCh9TLWJBEHeNtdnbysW7Y6Uq8CVng==}
     dev: true
 
-  /@types/react-dom@18.2.18:
-    resolution: {integrity: sha512-TJxDm6OfAX2KJWJdMEVTwWke5Sc/E/RlnPGvGfS0W7+6ocy2xhDVQVh/KvC2Uf7kACs+gDytdusDSdWfWkaNzw==}
+  /@types/react-dom@18.2.17:
+    resolution: {integrity: sha512-rvrT/M7Df5eykWFxn6MYt5Pem/Dbyc1N8Y0S9Mrkw2WFCRiqUgw9P7ul2NpwsXCSM1DVdENzdG9J5SreqfAIWg==}
     dependencies:
-      '@types/react': 18.2.48
+      '@types/react': 18.2.43
     dev: true
 
-  /@types/react@18.2.48:
-    resolution: {integrity: sha512-qboRCl6Ie70DQQG9hhNREz81jqC1cs9EVNcjQ1AU+jH6NFfSAhVVbrrY/+nSF+Bsk4AOwm9Qa61InvMCyV+H3w==}
+  /@types/react@18.2.43:
+    resolution: {integrity: sha512-nvOV01ZdBdd/KW6FahSbcNplt2jCJfyWdTos61RYHV+FVv5L/g9AOX1bmbVcWcLFL8+KHQfh1zVIQrud6ihyQA==}
     dependencies:
       '@types/prop-types': 15.7.11
       '@types/scheduler': 0.16.8
@@ -764,13 +767,13 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@vitejs/plugin-react-swc@3.5.0(vite@5.0.11):
+  /@vitejs/plugin-react-swc@3.5.0(vite@5.0.8):
     resolution: {integrity: sha512-1PrOvAaDpqlCV+Up8RkAh9qaiUjoDUcjtttyhXDKw53XA6Ve16SOp6cCOpRs8Dj8DqUQs6eTW5YkLcLJjrXAig==}
     peerDependencies:
       vite: ^4 || ^5
     dependencies:
       '@swc/core': 1.3.105
-      vite: 5.0.11
+      vite: 5.0.8
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: true
@@ -1400,24 +1403,24 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /eslint-plugin-react-hooks@4.6.0(eslint@8.56.0):
+  /eslint-plugin-react-hooks@4.6.0(eslint@8.55.0):
     resolution: {integrity: sha512-oFc7Itz9Qxh2x4gNHStv3BqJq54ExXmfC+a1NjAta66IAN87Wu0R/QArgIS9qKzX3dXKPI9H5crl9QchNMY9+g==}
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
     dependencies:
-      eslint: 8.56.0
+      eslint: 8.55.0
     dev: true
 
-  /eslint-plugin-react-refresh@0.4.5(eslint@8.56.0):
+  /eslint-plugin-react-refresh@0.4.5(eslint@8.55.0):
     resolution: {integrity: sha512-D53FYKJa+fDmZMtriODxvhwrO+IOqrxoEo21gMA0sjHdU6dPVH4OhyFip9ypl8HOF5RV5KdTo+rBQLvnY2cO8w==}
     peerDependencies:
       eslint: '>=7'
     dependencies:
-      eslint: 8.56.0
+      eslint: 8.55.0
     dev: true
 
-  /eslint-plugin-react@7.33.2(eslint@8.56.0):
+  /eslint-plugin-react@7.33.2(eslint@8.55.0):
     resolution: {integrity: sha512-73QQMKALArI8/7xGLNI/3LylrEYrlKZSb5C9+q3OtOewTnMQi5cT+aE9E41sLCmli3I9PGGmD1yiZydyo4FEPw==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -1428,7 +1431,7 @@ packages:
       array.prototype.tosorted: 1.1.2
       doctrine: 2.1.0
       es-iterator-helpers: 1.0.15
-      eslint: 8.56.0
+      eslint: 8.55.0
       estraverse: 5.3.0
       jsx-ast-utils: 3.3.5
       minimatch: 3.1.2
@@ -1455,15 +1458,15 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /eslint@8.56.0:
-    resolution: {integrity: sha512-Go19xM6T9puCOWntie1/P997aXxFsOi37JIHRWI514Hc6ZnaHGKY9xFhrU65RT6CcBEzZoGG1e6Nq+DT04ZtZQ==}
+  /eslint@8.55.0:
+    resolution: {integrity: sha512-iyUUAM0PCKj5QpwGfmCAG9XXbZCWsqP/eWAWrG/W0umvjuLRBECwSFdt+rCntju0xEH7teIABPwXpahftIaTdA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     hasBin: true
     dependencies:
-      '@eslint-community/eslint-utils': 4.4.0(eslint@8.56.0)
+      '@eslint-community/eslint-utils': 4.4.0(eslint@8.55.0)
       '@eslint-community/regexpp': 4.10.0
       '@eslint/eslintrc': 2.1.4
-      '@eslint/js': 8.56.0
+      '@eslint/js': 8.55.0
       '@humanwhocodes/config-array': 0.11.14
       '@humanwhocodes/module-importer': 1.0.1
       '@nodelib/fs.walk': 1.2.8
@@ -1845,8 +1848,8 @@ packages:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: true
 
-  /happy-dom@13.3.1:
-    resolution: {integrity: sha512-KIlztn+nRWstprUyI3Wzy1UJrg72uOaoo4SaBLNrV6xrn2Rq86eQruKOL7ZyDhkfou3nEZX6rgRYtvsqwMInvQ==}
+  /happy-dom@13.2.1:
+    resolution: {integrity: sha512-AwSV0OPsLxOu1nsKsw+1aakYGiCgLcYed/BPLMGe4lOxAZY14UWGAw8nB7SSnHRltBPwcM6Rf+5hcMXcU7qxaQ==}
     engines: {node: '>=16.0.0'}
     dependencies:
       entities: 4.5.0
@@ -2161,6 +2164,17 @@ packages:
       reflect.getprototypeof: 1.0.4
       set-function-name: 2.0.1
     dev: true
+
+  /jrmb-midu-router@0.0.5(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-F9VlfoABWpTFgoQIiTLeRz47Gmqnt2CrMPmasAiculpaseUfBljaMjGzLA3TS7axlLNZrCz00US51pIv3IJHiA==}
+    peerDependencies:
+      react: 18.2.0
+      react-dom: 18.2.0
+    dependencies:
+      path-to-regexp: 6.2.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -3219,7 +3233,7 @@ packages:
       debug: 4.3.4
       pathe: 1.1.2
       picocolors: 1.0.0
-      vite: 5.0.11
+      vite: 5.0.8
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -3231,8 +3245,8 @@ packages:
       - terser
     dev: true
 
-  /vite@5.0.11:
-    resolution: {integrity: sha512-XBMnDjZcNAw/G1gEiskiM1v6yzM4GE5aMGvhWTlHAYYhxb7S3/V1s3m2LDHa8Vh6yIWYYB0iJwsEaS523c4oYA==}
+  /vite@5.0.8:
+    resolution: {integrity: sha512-jYMALd8aeqR3yS9xlHd0OzQJndS9fH5ylVgWdB+pxTwxLKdO1pgC5Dlb398BUxpfaBxa4M9oT7j1g503Gaj5IQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -3266,7 +3280,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitest@1.2.1(happy-dom@13.3.1):
+  /vitest@1.2.1(happy-dom@13.2.1):
     resolution: {integrity: sha512-TRph8N8rnSDa5M2wKWJCMnztCZS9cDcgVTQ6tsTFTG/odHJ4l5yNVqvbeDJYJRZ6is3uxaEpFs8LL6QM+YFSdA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3301,7 +3315,7 @@ packages:
       chai: 4.4.1
       debug: 4.3.4
       execa: 8.0.1
-      happy-dom: 13.3.1
+      happy-dom: 13.2.1
       local-pkg: 0.5.0
       magic-string: 0.30.5
       pathe: 1.1.2
@@ -3310,7 +3324,7 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.6.0
       tinypool: 0.8.2
-      vite: 5.0.11
+      vite: 5.0.8
       vite-node: 1.2.1
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
