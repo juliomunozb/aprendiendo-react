@@ -25,6 +25,19 @@ module.exports = {
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
     'react/react-in-jsx-scope': 'off',
-    '@typescript-eslint/space-before-function-paren': ['off', 'always']
+    '@typescript-eslint/space-before-function-paren': ['off', 'always'],
+    '@typescript-eslint/member-delimiter-style': [
+      'error',
+      {
+        multiline: {
+          delimiter: 'none', // 'none' or 'semi' or 'comma'
+          requireLast: true
+        },
+        singleline: {
+          delimiter: 'semi', // 'semi' or 'comma'
+          requireLast: false
+        }
+      }
+    ]
   }
 }
