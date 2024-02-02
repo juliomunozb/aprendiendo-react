@@ -20,6 +20,9 @@ function reduce(state: State, action: Action) {
   // pauload -> lo siguiente que se le pasa en cada acción
   const { type } = action
   if (type === 'INTERCHANGE_LANGUAGES') {
+    // Logica dentro del reducer
+    // se evita dentro del componente
+    if (state.fromLanguage === 'auto') return state
     return {
       ...state,
       fromLanguage: state.toLanguage,
