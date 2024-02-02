@@ -1,3 +1,4 @@
+import { type SUPPORTED_LANGUAGES, type AUTO_LANGUAGE } from './constants'
 // types.d.ts = Que el archivo no va a tener código, solo las declaraciones de los types
 // Cuando se quiere escribir el contrato de un objeto se una una Interfaz
 export interface State {
@@ -5,7 +6,7 @@ export interface State {
   toLanguage: string
   fromText: string
   result: string
-  loagin: false
+  loading: boolean
 }
 
 export type Action =
@@ -14,3 +15,7 @@ export type Action =
   | { type: 'SET_TO_LANGUAGE'; payload: string }
   | { type: 'SET_FROM_TEXT'; payload: string }
   | { type: 'SET_RESULT'; payload: string }
+
+export type Language = keyof typeof SUPPORTED_LANGUAGES
+export type AutoLanguage = typeof AUTO_LANGUAGE
+export type FromLanguage = Language | AutoLanguage
