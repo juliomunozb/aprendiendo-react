@@ -4,9 +4,11 @@ import './App.css'
 import { useStore } from './hooks/useStore'
 import { AUTO_LANGUAGE } from './constants'
 import { ArrowsIcon } from './components/Icons'
+import { LanguageSelector } from './components/LanguageSelector'
 
 function App() {
-  const { fromLanguage, toLanguage, interchangeLanguage } = useStore()
+  const { fromLanguage, setFromLanguage, setToLanguage, interchangeLanguage } =
+    useStore()
   console.log({ fromLanguage })
   return (
     <>
@@ -14,8 +16,7 @@ function App() {
         <h1>Google Translate</h1>
         <Row>
           <Col>
-            <h2>From</h2>
-            {fromLanguage}
+            <LanguageSelector onchange={setFromLanguage} />
           </Col>
           <Col>
             <Button
@@ -27,8 +28,7 @@ function App() {
             </Button>
           </Col>
           <Col>
-            <h2>To</h2>
-            {toLanguage}
+            <LanguageSelector onchange={setToLanguage} />
           </Col>
         </Row>
       </Container>
