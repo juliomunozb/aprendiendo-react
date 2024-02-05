@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
 import { AUTO_LANGUAGE, SUPPORTED_LANGUAGES } from '../constants'
-import { type FromLanguage, type Language } from '../types'
+import { SectionType, type FromLanguage, type Language } from '../types.d'
 
 /* interface Props {
   onchange: (language: Language) => void
@@ -12,11 +12,15 @@ import { type FromLanguage, type Language } from '../types'
 /* eslint-disable @typescript-eslint/indent */
 type Props =
   | {
-      type: 'from'
+      type: SectionType.From
       value: FromLanguage
       onchange: (language: FromLanguage) => void
     }
-  | { type: 'to'; value: Language; onchange: (language: Language) => void }
+  | {
+      type: SectionType.To
+      value: Language
+      onchange: (language: Language) => void
+    }
 
 export const LanguageSelector: React.FC<Props> = ({
   onchange,
@@ -34,7 +38,7 @@ export const LanguageSelector: React.FC<Props> = ({
       onChange={handleChange}
       value={value}
     >
-      {type === 'from' && (
+      {type === SectionType.From && (
         <option value={AUTO_LANGUAGE}>Detectar idioma</option>
       )}
       {Object.entries(SUPPORTED_LANGUAGES).map(([key, literal]) => (
