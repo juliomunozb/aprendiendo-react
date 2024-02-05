@@ -38,6 +38,7 @@ module.exports = {
           requireLast: false
         }
       }
-    ]
+    ],
+    indent: ['error', 2, { MemberExpression: 1 }]
   }
 }
