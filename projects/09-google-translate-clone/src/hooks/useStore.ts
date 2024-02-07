@@ -31,22 +31,31 @@ function reduce(state: State, action: Action) {
   }
 
   if (type === 'SET_FROM_LANGUAGE') {
+    if (state.fromLanguage === action.payload) return state
+    const loading = state.fromText !== ''
     return {
       ...state,
-      fromLanguage: action.payload
+      fromLanguage: action.payload,
+      reesult: '',
+      loading
     }
   }
   if (type === 'SET_TO_LANGUAGE') {
+    if (state.fromLanguage === action.payload) return state
+    const loading = state.fromText !== ''
     return {
       ...state,
-      toLanguage: action.payload
+      toLanguage: action.payload,
+      reesult: '',
+      loading
     }
   }
 
   if (type === 'SET_FROM_TEXT') {
+    const loading = action.payload !== ''
     return {
       ...state,
-      loading: true,
+      loading,
       fromText: action.payload,
       result: ''
     }

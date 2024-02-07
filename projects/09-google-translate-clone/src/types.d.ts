@@ -1,4 +1,7 @@
-import { type SUPPORTED_LANGUAGES, type AUTO_LANGUAGE } from './constants'
+import {
+  type SUPPORTED_LANGUAGES,
+  type AUTO_LANGUAGE
+} from './constants'
 // types.d.ts = Que el archivo no va a tener código, solo las declaraciones de los types
 // Cuando se quiere escribir el contrato de un objeto se una una Interfaz
 export interface State {

@@ -7,6 +7,8 @@ import { ArrowsIcon } from './components/Icons'
 import { LanguageSelector } from './components/LanguageSelector'
 import { SectionType } from './types.d'
 import { TextArea } from './components/TextArea'
+import { useEffect } from 'react'
+import { translate } from './services/translate'
 
 function App() {
   const {
@@ -21,7 +23,20 @@ function App() {
     setToLanguage,
     interchangeLanguage
   } = useStore()
-  console.log({ fromLanguage })
+
+  useEffect(() => {
+    if (fromText === '') return
+    translate({ fromLanguage, toLanguage, text: fromText })
+      .then((result) => {
+        // en typescript con el  == se hace la comprobación de null y tambien undefined
+        if (result == null) return
+        setResult(result)
+      })
+      .catch(() => {
+        setResult('Error')
+      })
+    console.log(fromText, 'useEffect')
+  }, [fromText, fromLanguage, toLanguage])
   return (
     <>
       <Container fluid>
