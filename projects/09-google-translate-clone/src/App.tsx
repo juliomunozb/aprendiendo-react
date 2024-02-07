@@ -9,6 +9,7 @@ import { SectionType } from './types.d'
 import { TextArea } from './components/TextArea'
 import { useEffect } from 'react'
 import { translate } from './services/translate'
+import { useDebounce } from './hooks/useDebounce'
 
 function App() {
   const {
@@ -24,9 +25,10 @@ function App() {
     interchangeLanguage
   } = useStore()
 
+  const debouncedFromText = useDebounce(fromText)
   useEffect(() => {
-    if (fromText === '') return
-    translate({ fromLanguage, toLanguage, text: fromText })
+    if (debouncedFromText === '') return
+    translate({ fromLanguage, toLanguage, text: debouncedFromText })
       .then((result) => {
         // en typescript con el  == se hace la comprobación de null y tambien undefined
         if (result == null) return
@@ -35,8 +37,8 @@ function App() {
       .catch(() => {
         setResult('Error')
       })
-    console.log(fromText, 'useEffect')
-  }, [fromText, fromLanguage, toLanguage])
+    console.log(debouncedFromText, 'useEffect')
+  }, [debouncedFromText, fromLanguage, toLanguage])
   return (
     <>
       <Container fluid>

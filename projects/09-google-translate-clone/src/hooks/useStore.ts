@@ -23,10 +23,13 @@ function reduce(state: State, action: Action) {
     // Logica dentro del reducer
     // se evita dentro del componente
     if (state.fromLanguage === 'auto') return state
+    const loading = state.fromText !== ''
     return {
       ...state,
       fromLanguage: state.toLanguage,
-      toLanguage: state.fromLanguage
+      toLanguage: state.fromLanguage,
+      loading,
+      result: ''
     }
   }
 

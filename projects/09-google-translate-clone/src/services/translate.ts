@@ -2,6 +2,8 @@ import OpenAI from 'openai'
 import { type Language, type FromLanguage } from '../types'
 import { SUPPORTED_LANGUAGES } from '../constants'
 
+// Importar variables de entorno
+// Solo las variables con el prefijo VITE_ se exponen a su código procesado por Vite.
 const apiKey = import.meta.env.VITE_OPENAI_API_KEY
 
 const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true })
