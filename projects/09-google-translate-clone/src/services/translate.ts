@@ -2,6 +2,11 @@ import OpenAI from 'openai'
 import { type Language, type FromLanguage } from '../types'
 import { SUPPORTED_LANGUAGES } from '../constants'
 
+// NO PUBLIQUES ESTO O SE COLARÁ TU API KEY EN EL CLIENTE
+// ESTO LO HACEMOS PORQUE NOS ESTAMOS ENFOCANDO EN ESTE CURSO
+// EN REACT y TYPESCRIPT
+// DEBES CREAR UNA API PARA ESTO
+
 // Importar variables de entorno
 // Solo las variables con el prefijo VITE_ se exponen a su código procesado por Vite.
 const apiKey = import.meta.env.VITE_OPENAI_API_KEY
