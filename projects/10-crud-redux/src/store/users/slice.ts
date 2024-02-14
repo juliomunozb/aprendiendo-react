@@ -15,7 +15,7 @@ const initialState: UserWhithId[] = [
     id: '1',
     name: 'yazmanito',
     email: 'yazmanito@gmail.com',
-    github: 'yamanito',
+    github: 'midudev',
   },
   {
     id: '2',

@@ -11,7 +11,10 @@ import {
   Badge,
 } from '@tremor/react'
 
+import { useSelector } from 'react-redux'
+
 export function ListOfUsers() {
+  const users = useSelector(state => state.users)
   return (
     <>
       <Card>
