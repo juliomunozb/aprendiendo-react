@@ -6,11 +6,7 @@ export interface users {
   github: string
 }
 
-export interface UserWhithId extends users {
-  id: userID
-}
-
-const initialState: UserWhithId[] = [
+const DEFAULT_STATE = [
   {
     id: '1',
     name: 'yazmanito',
@@ -30,6 +26,24 @@ const initialState: UserWhithId[] = [
     github: 'juliomunozb',
   },
 ]
+
+export interface UserWhithId extends users {
+  id: userID
+}
+
+//Manejo del estado inicial con localtorage
+//1. Opcion uno
+/*let initialState: UserWhithId[] = DEFAULT_STATE
+const presistedState = localStorage.getItem('_redux_state_')
+if (presistedState) {
+  initialState = JSON.parse(presistedState).users
+}*/
+
+//2. Opción 2. utilizando un clousure
+const initialState: UserWhithId[] = (() => {
+  const presistedState = localStorage.getItem('_redux_state_')
+  return presistedState ? JSON.parse(presistedState).users : DEFAULT_STATE
+})()
 
 export const userSlice = createSlice({
   name: 'users',
