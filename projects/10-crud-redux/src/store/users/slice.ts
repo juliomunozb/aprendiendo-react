@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
-
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+export type userID = string
 export interface users {
   name: string
   email: string
@@ -7,7 +7,7 @@ export interface users {
 }
 
 export interface UserWhithId extends users {
-  id: string
+  id: userID
 }
 
 const initialState: UserWhithId[] = [
@@ -34,7 +34,13 @@ const initialState: UserWhithId[] = [
 export const userSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    deleteUserById: (state, action: PayloadAction<userID>) => {
+      const id = action.payload
+      return state.filter(user => user.id !== id)
+    },
+  },
 })
 
 export default userSlice.reducer
+export const { deleteUserById } = userSlice.actions
