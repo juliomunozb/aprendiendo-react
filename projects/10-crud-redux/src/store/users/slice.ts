@@ -54,7 +54,7 @@ export const userSlice = createSlice({
       // Crear nuevo estado a partir del anterior
       // Pasamos el estado ...state
       // Agregamos el nuevo usuario { id, ...action.payload }
-      return [...state, { id, ...action.payload }]
+      state.push({ id, ...action.payload })
     },
     deleteUserById: (state, action: PayloadAction<userID>) => {
       const id = action.payload
@@ -65,7 +65,7 @@ export const userSlice = createSlice({
         user => user.id === action.payload.id
       )
       if (!isUserAlreadyDefined) {
-        return [...state, action.payload]
+        state.push(...state, action.payload)
       }
     },
   },
