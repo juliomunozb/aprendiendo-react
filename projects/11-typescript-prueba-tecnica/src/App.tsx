@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { type User } from './types'
+import { type User } from './types.d'
+import { UsersList } from './components/UsersList'
 
 function App() {
   const [users, setUsers] = useState<User[]>([])
@@ -16,8 +17,8 @@ function App() {
   }, [])
   return (
     <>
-      <h1>Prueba técnica</h1>
-      {JSON.stringify(users)}
+      <h2>Prueba Técnica</h2>
+      <UsersList users={users} />
     </>
   )
 }

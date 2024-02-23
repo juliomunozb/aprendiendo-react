@@ -3,5 +3,13 @@
   "semi": false,
   "singleQuote": true,
   "jsxSingleQuote": true,
-  "arrowParens": "avoid"
+  "arrowParens": "avoid",
+  "multiline": {
+    "delimiter": "comma",
+    "requireLast": true
+  },
+  "singleline": {
+    "delimiter": "comma",
+    "requireLast": true
+  }
 }
