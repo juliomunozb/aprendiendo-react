@@ -29,6 +29,8 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'space-before-function-paren': 'off',
     '@typescript-eslint/space-before-function-paren': 'off',
-    '@typescript-eslint/no-unsafe-argument': 'off'
+    '@typescript-eslint/no-unsafe-argument': 'off',
+    '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/method-signature-style': 'off',
   },
 }
