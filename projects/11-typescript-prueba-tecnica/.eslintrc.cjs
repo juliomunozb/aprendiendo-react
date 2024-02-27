@@ -31,6 +31,6 @@ module.exports = {
     '@typescript-eslint/space-before-function-paren': 'off',
     '@typescript-eslint/no-unsafe-argument': 'off',
     '@typescript-eslint/indent': 'off',
-    '@typescript-eslint/method-signature-style': 'off',
+    '@typescript-eslint/non-nullable-type-assertion-style': 'off',
   },
 }

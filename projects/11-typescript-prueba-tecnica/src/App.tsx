@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, type ChangeEvent } from 'react'
+import { useEffect, useState, useRef, type ChangeEvent, useMemo } from 'react'
 import './App.css'
 import { type User } from './types.d'
 import { UsersList } from './components/UsersList'
@@ -31,25 +31,31 @@ function App() {
   const toogleSortByCountry = () => {
     setSortByCountry(prevState => !prevState)
   }
-
-  const filteredUsers =
-    typeof filterCountry === 'string' && filterCountry.length > 0
+  // Usando useMemo para evitar el redenrizado cuando no es necesario
+  const filteredUsers = useMemo(() => {
+    console.log('Calculate FilteredUsers')
+    return typeof filterCountry === 'string' && filterCountry.length > 0
       ? users.filter(user => {
           return user.location.country
             .toLowerCase()
             .includes(filterCountry.toLowerCase())
         })
       : users
+  }, [users, filterCountry])
 
   // users.sort((a, b) -> Esta mal ya que el sort muta el array original [Error]
   // [...users].sort((a, b) -> se hace una copia del array original [OK] 7
   // structuredClone(users).sort((a, b) -> se hace una copia profunda del array original [OK] 5.5
   // users.toSorted((a, b) -> seria la mejor opción. Es una versión resiente, puede no estar soportada por todos los navegadores. [OK] 10
-  const sortedUsers = sortByCountry
-    ? filteredUsers.toSorted((a, b) => {
-        return a.location.country.localeCompare(b.location.country)
-      })
-    : filteredUsers
+  const sortedUsers = useMemo(() => {
+    console.log('sortedUsers')
+
+    return sortByCountry
+      ? filteredUsers.toSorted((a, b) => {
+          return a.location.country.localeCompare(b.location.country)
+        })
+      : filteredUsers
+  }, [filteredUsers, sortByCountry])
 
   const handleDeleteUser = (email: string) => {
     const filterUsers = users.filter(user => user.email !== email)
@@ -58,6 +64,25 @@ function App() {
   const handleReset = () => {
     setUsers(originalUsers.current)
   }
+  /* Sin evitar el renderizado no requerido */
+  // const filteredUsers = (() => {
+  //   console.log('calculate filteredUsers')
+  //   return filterCountry != null && filterCountry.length > 0
+  //     ? users.filter(user => {
+  //       return user.location.country.toLowerCase().includes(filterCountry.toLowerCase())
+  //     })
+  //     : users
+  // })()
+
+  // const sortedUsers = (() => {
+  //   console.log('calculate sortedUsers')
+
+  //   return sortByCountry
+  //     ? filteredUsers.toSorted(
+  //       (a, b) => a.location.country.localeCompare(b.location.country)
+  //     )
+  //     : filteredUsers
+  // })()
 
   const handleOnchage = (e: ChangeEvent<HTMLInputElement>) => {
     setFilterCountry(e.target.value)
