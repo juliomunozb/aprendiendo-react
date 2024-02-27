@@ -46,30 +46,21 @@ function App() {
       : users
   }, [users, filterCountry])
 
-  // users.sort((a, b) -> Esta mal ya que el sort muta el array original [Error]
-  // [...users].sort((a, b) -> se hace una copia del array original [OK] 7
-  // structuredClone(users).sort((a, b) -> se hace una copia profunda del array original [OK] 5.5
-  // users.toSorted((a, b) -> seria la mejor opción. Es una versión resiente, puede no estar soportada por todos los navegadores. [OK] 10
   const sortedUsers = useMemo(() => {
-    console.log('sortedUsers')
-    if (sorting === SortBy.COUNTRY) {
-      return filteredUsers.toSorted((a, b) =>
-        a.location.country.localeCompare(b.location.country)
-      )
-    }
-    if (sorting === SortBy.NAME) {
-      return filteredUsers.toSorted((a, b) =>
-        a.name.first.localeCompare(b.name.first)
-      )
+    console.log('calculate sortedUsers')
+
+    if (sorting === SortBy.NONE) return filteredUsers
+
+    const compareProperties: Record<string, (user: User) => any> = {
+      [SortBy.COUNTRY]: user => user.location.country,
+      [SortBy.NAME]: user => user.name.first,
+      [SortBy.LAST]: user => user.name.last,
     }
 
-    if (sorting === SortBy.LAST) {
-      return filteredUsers.toSorted((a, b) =>
-        a.name.last.localeCompare(b.name.last)
-      )
-    }
-
-    return filteredUsers
+    return filteredUsers.toSorted((a, b) => {
+      const extractProperty = compareProperties[sorting]
+      return extractProperty(a).localeCompare(extractProperty(b))
+    })
   }, [filteredUsers, sorting])
 
   /* Sin evitar el renderizado no requerido */
