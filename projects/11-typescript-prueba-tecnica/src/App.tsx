@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import './App.css'
 import { type User } from './types.d'
 import { UsersList } from './components/UsersList'
@@ -7,12 +7,17 @@ function App() {
   const [users, setUsers] = useState<User[]>([])
   const [showColors, setShowColors] = useState(false)
   const [sortByCountry, setSortByCountry] = useState(false)
+  // useRef -> para guardar un valor
+  // que queremos que no se comparta entre renderizados
+  // pero que al cambiar, no vuelve a renderizar el componente
+  const originalUsers = useRef<User[]>([])
 
   useEffect(() => {
     fetch('https://randomuser.me/api/?results=100')
       .then(async res => await res.json())
       .then(res => {
         setUsers(res.results)
+        originalUsers.current = res.results
       })
       .catch(err => {
         console.log(err)
@@ -40,6 +45,9 @@ function App() {
     const filterUsers = users.filter(user => user.email !== email)
     setUsers(filterUsers)
   }
+  const handleReset = () => {
+    setUsers(originalUsers.current)
+  }
 
   return (
     <>
@@ -49,6 +57,7 @@ function App() {
         <button onClick={toogleSortByCountry}>
           {sortByCountry ? 'No ordenar por país' : 'Ordenar por país'}
         </button>
+        <button onClick={handleReset}>Reset</button>
       </header>
       <main>
         <UsersList
