@@ -12,16 +12,31 @@ function App() {
   // que queremos que no se comparta entre renderizados
   // pero que al cambiar, no vuelve a renderizar el componente
   const originalUsers = useRef<User[]>([])
+  const [loagin, setLoadin] = useState(false)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
+    setLoadin(true)
+    setError(false)
     fetch('https://randomuser.me/api/?results=100')
-      .then(async res => await res.json())
+      .then(async res => {
+        // Validar si ha fallado la peticion asíncrona
+        if (!res.ok) throw new Error('Error en la petición')
+        return await res.json()
+      })
       .then(res => {
+        // <-- resuelve la promesa
         setUsers(res.results)
         originalUsers.current = res.results
       })
       .catch(err => {
+        // <-- captura los errores en el fetch: De conexiones, etc
         console.log(err)
+        setError(error)
+      })
+      .finally(() => {
+        // <- se ejecuta siempre
+        setLoadin(false)
       })
   }, [])
 
@@ -63,26 +78,6 @@ function App() {
     })
   }, [filteredUsers, sorting])
 
-  /* Sin evitar el renderizado no requerido */
-  // const filteredUsers = (() => {
-  //   console.log('calculate filteredUsers')
-  //   return filterCountry != null && filterCountry.length > 0
-  //     ? users.filter(user => {
-  //       return user.location.country.toLowerCase().includes(filterCountry.toLowerCase())
-  //     })
-  //     : users
-  // })()
-
-  // const sortedUsers = (() => {
-  //   console.log('calculate sortedUsers')
-
-  //   return sortByCountry
-  //     ? filteredUsers.toSorted(
-  //       (a, b) => a.location.country.localeCompare(b.location.country)
-  //     )
-  //     : filteredUsers
-  // })()
-
   const handleDeleteUser = (email: string) => {
     const filterUsers = users.filter(user => user.email !== email)
     setUsers(filterUsers)
@@ -114,12 +109,17 @@ function App() {
         />
       </header>
       <main>
-        <UsersList
-          changeSorting={handleChangeSort}
-          deleteUser={handleDeleteUser}
-          showColors={showColors}
-          users={sortedUsers}
-        />
+        {loagin && <p>Cargando...</p>}
+        {!loagin && error && <p>se presentó algún error</p>}
+        {!loagin && !error && users.length === 0 && <p>No hay usuarios</p>}
+        {!loagin && !error && users.length > 0 && (
+          <UsersList
+            changeSorting={handleChangeSort}
+            deleteUser={handleDeleteUser}
+            showColors={showColors}
+            users={sortedUsers}
+          />
+        )}
       </main>
     </>
   )
