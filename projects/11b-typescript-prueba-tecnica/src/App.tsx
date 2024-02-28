@@ -14,11 +14,14 @@ function App() {
   const originalUsers = useRef<User[]>([])
   const [loagin, setLoadin] = useState(false)
   const [error, setError] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     setLoadin(true)
     setError(false)
-    fetch('https://randomuser.me/api/?results=100')
+    fetch(
+      `https://randomuser.me/api/?results=10&seed=users&page=${currentPage}`
+    )
       .then(async res => {
         // Validar si ha fallado la peticion asíncrona
         if (!res.ok) throw new Error('Error en la petición')
@@ -26,8 +29,11 @@ function App() {
       })
       .then(res => {
         // <-- resuelve la promesa
-        setUsers(res.results)
-        originalUsers.current = res.results
+        setUsers(prevUsers => {
+          const newUSers = prevUsers.concat(res.results)
+          originalUsers.current = newUSers
+          return newUSers
+        })
       })
       .catch(err => {
         // <-- captura los errores en el fetch: De conexiones, etc
@@ -38,7 +44,7 @@ function App() {
         // <- se ejecuta siempre
         setLoadin(false)
       })
-  }, [])
+  }, [currentPage])
 
   const toogleColors = () => {
     setShowColors(!showColors)
@@ -51,7 +57,6 @@ function App() {
 
   // Usando useMemo para evitar el redenrizado cuando no es necesario
   const filteredUsers = useMemo(() => {
-    console.log('Calculate FilteredUsers')
     return typeof filterCountry === 'string' && filterCountry.length > 0
       ? users.filter(user => {
           return user.location.country
@@ -62,8 +67,6 @@ function App() {
   }, [users, filterCountry])
 
   const sortedUsers = useMemo(() => {
-    console.log('calculate sortedUsers')
-
     if (sorting === SortBy.NONE) return filteredUsers
 
     const compareProperties: Record<string, (user: User) => any> = {
@@ -109,16 +112,25 @@ function App() {
         />
       </header>
       <main>
-        {loagin && <p>Cargando...</p>}
-        {!loagin && error && <p>se presentó algún error</p>}
-        {!loagin && !error && users.length === 0 && <p>No hay usuarios</p>}
-        {!loagin && !error && users.length > 0 && (
+        {users.length > 0 && (
           <UsersList
             changeSorting={handleChangeSort}
             deleteUser={handleDeleteUser}
             showColors={showColors}
             users={sortedUsers}
           />
+        )}
+        {loagin && <p>Cargando...</p>}
+        {!loagin && error && <p>se presentó algún error</p>}
+        {!loagin && !error && users.length === 0 && <p>No hay usuarios</p>}
+        {!loagin && !error && (
+          <button
+            onClick={() => {
+              setCurrentPage(currentPage + 1)
+            }}
+          >
+            Cargar más resultados
+          </button>
         )}
       </main>
     </>
