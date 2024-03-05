@@ -1,7 +1,9 @@
-import { useEffect, useState, useRef, type ChangeEvent, useMemo } from 'react'
+import { useState, type ChangeEvent, useMemo } from 'react'
 import './App.css'
 import { SortBy, type User } from './types.d'
 import { UsersList } from './components/UsersList'
+import { useQuery } from '@tanstack/react-query'
+
 const fetchUsers = async (page: number) => {
   return await fetch(
     `https://randomuser.me/api/?results=10&seed=users&page=${page}`
@@ -13,41 +15,23 @@ const fetchUsers = async (page: number) => {
     })
     .then(res => res.results)
 }
+
 function App() {
-  const [users, setUsers] = useState<User[]>([])
+  const {
+    isLoading,
+    isError,
+    data: users = [],
+    refetch,
+  } = useQuery<User[]>({
+    queryKey: ['users'], // <- Key de la informacion o de la query
+    queryFn: async () => await fetchUsers(1), // <- como traer la información
+  })
+
   const [showColors, setShowColors] = useState(false)
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE)
   const [filterCountry, setFilterCountry] = useState<string | null>(null)
-  // useRef -> para guardar un valor
-  // que queremos que no se comparta entre renderizados
-  // pero que al cambiar, no vuelve a renderizar el componente
-  const originalUsers = useRef<User[]>([])
-  const [loagin, setLoadin] = useState(false)
-  const [error, setError] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
 
-  useEffect(() => {
-    setLoadin(true)
-    setError(false)
-    fetchUsers(currentPage)
-      .then(users => {
-        // <-- resuelve la promesa
-        setUsers(prevUsers => {
-          const newUSers = prevUsers.concat(users)
-          originalUsers.current = newUSers
-          return newUSers
-        })
-      })
-      .catch(err => {
-        // <-- captura los errores en el fetch: De conexiones, etc
-        console.log(err)
-        setError(error)
-      })
-      .finally(() => {
-        // <- se ejecuta siempre
-        setLoadin(false)
-      })
-  }, [currentPage])
+  const [currentPage, setCurrentPage] = useState(1)
 
   const toogleColors = () => {
     setShowColors(!showColors)
@@ -85,11 +69,11 @@ function App() {
   }, [filteredUsers, sorting])
 
   const handleDeleteUser = (email: string) => {
-    const filterUsers = users.filter(user => user.email !== email)
-    setUsers(filterUsers)
+    // const filterUsers = users.filter(user => user.email !== email)
+    // setUsers(filterUsers)
   }
-  const handleReset = () => {
-    setUsers(originalUsers.current)
+  const handleReset = async () => {
+    await refetch()
   }
   const handleOnchage = (e: ChangeEvent<HTMLInputElement>) => {
     setFilterCountry(e.target.value)
@@ -107,7 +91,7 @@ function App() {
             ? 'No ordenar por país'
             : 'Ordenar por país'}
         </button>
-        <button onClick={handleReset}>Reset</button>
+        <button onClick={() => handleReset}>Reset</button>
         <input
           type='text'
           placeholder='Filtrar por país'
@@ -123,10 +107,10 @@ function App() {
             users={sortedUsers}
           />
         )}
-        {loagin && <p>Cargando...</p>}
-        {!loagin && error && <p>se presentó algún error</p>}
-        {!loagin && !error && users.length === 0 && <p>No hay usuarios</p>}
-        {!loagin && !error && (
+        {isLoading && <p>Cargando...</p>}
+        {!isLoading && isError && <p>se presentó algún error</p>}
+        {!isLoading && !isError && users.length === 0 && <p>No hay usuarios</p>}
+        {!isLoading && !isError && (
           <button
             onClick={() => {
               setCurrentPage(currentPage + 1)
