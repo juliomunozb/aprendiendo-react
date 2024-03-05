@@ -2,7 +2,17 @@ import { useEffect, useState, useRef, type ChangeEvent, useMemo } from 'react'
 import './App.css'
 import { SortBy, type User } from './types.d'
 import { UsersList } from './components/UsersList'
-
+const fetchUsers = async (page: number) => {
+  return await fetch(
+    `https://randomuser.me/api/?results=10&seed=users&page=${page}`
+  )
+    .then(async res => {
+      // Validar si ha fallado la peticion asíncrona
+      if (!res.ok) throw new Error('Error en la petición')
+      return await res.json()
+    })
+    .then(res => res.results)
+}
 function App() {
   const [users, setUsers] = useState<User[]>([])
   const [showColors, setShowColors] = useState(false)
@@ -19,18 +29,11 @@ function App() {
   useEffect(() => {
     setLoadin(true)
     setError(false)
-    fetch(
-      `https://randomuser.me/api/?results=10&seed=users&page=${currentPage}`
-    )
-      .then(async res => {
-        // Validar si ha fallado la peticion asíncrona
-        if (!res.ok) throw new Error('Error en la petición')
-        return await res.json()
-      })
-      .then(res => {
+    fetchUsers(currentPage)
+      .then(users => {
         // <-- resuelve la promesa
         setUsers(prevUsers => {
-          const newUSers = prevUsers.concat(res.results)
+          const newUSers = prevUsers.concat(users)
           originalUsers.current = newUSers
           return newUSers
         })
