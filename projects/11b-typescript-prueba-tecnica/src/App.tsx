@@ -13,7 +13,8 @@ const fetchUsers = async ({ pageParam = 1 }: { pageParam: number }) => {
       return await res.json()
     })
     .then(res => {
-      const nextCursor = Number(res.info.page) + 1
+      const currentPage = Number(res.info.page)
+      const nextCursor = currentPage > 3 ? undefined : currentPage + 1
 
       return {
         users: res.results,
@@ -23,7 +24,7 @@ const fetchUsers = async ({ pageParam = 1 }: { pageParam: number }) => {
 }
 
 function App() {
-  const { isLoading, isError, data, refetch, fetchNextPage } =
+  const { isLoading, isError, data, refetch, fetchNextPage, hasNextPage } =
     useInfiniteQuery<{
       nextCursor?: number
       users: User[]
@@ -120,7 +121,7 @@ function App() {
         {isLoading && <p>Cargando...</p>}
         {!isLoading && isError && <p>se presentó algún error</p>}
         {!isLoading && !isError && users.length === 0 && <p>No hay usuarios</p>}
-        {!isLoading && !isError && (
+        {!isLoading && !isError && hasNextPage === true && (
           <button
             onClick={() => {
               void fetchNextPage()
@@ -128,6 +129,9 @@ function App() {
           >
             Cargar más resultados
           </button>
+        )}
+        {!isLoading && !isError && hasNextPage === false && (
+          <p>Ya no hay mas resultados</p>
         )}
       </main>
     </>
