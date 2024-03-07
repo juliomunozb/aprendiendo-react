@@ -2,36 +2,46 @@ import { useState, type ChangeEvent, useMemo } from 'react'
 import './App.css'
 import { SortBy, type User } from './types.d'
 import { UsersList } from './components/UsersList'
-import { useQuery } from '@tanstack/react-query'
-
-const fetchUsers = async (page: number) => {
+import { useInfiniteQuery } from '@tanstack/react-query'
+const fetchUsers = async ({ pageParam = 1 }: { pageParam: number }) => {
   return await fetch(
-    `https://randomuser.me/api/?results=10&seed=users&page=${page}`
+    `https://randomuser.me/api/?results=10&seed=users&page=${pageParam}`
   )
     .then(async res => {
       // Validar si ha fallado la peticion asíncrona
       if (!res.ok) throw new Error('Error en la petición')
       return await res.json()
     })
-    .then(res => res.results)
+    .then(res => {
+      const nextCursor = Number(res.info.page) + 1
+
+      return {
+        users: res.results,
+        nextCursor,
+      }
+    })
 }
 
 function App() {
-  const {
-    isLoading,
-    isError,
-    data: users = [],
-    refetch,
-  } = useQuery<User[]>({
-    queryKey: ['users'], // <- Key de la informacion o de la query
-    queryFn: async () => await fetchUsers(1), // <- como traer la información
-  })
+  const { isLoading, isError, data, refetch, fetchNextPage } =
+    useInfiniteQuery<{
+      nextCursor?: number
+      users: User[]
+    }>(
+      ['users'], // <- la key de la información o de la query
+      async ({ pageParam = 1 }) => await fetchUsers({ pageParam }),
+      {
+        getNextPageParam: lastPage => lastPage.nextCursor,
+      }
+    )
+  console.log(data)
+
+  // flatMap: mapea cada valor a un nuevo valor y el resultado es aplanado a una profundidad máxima de 1.
+  const users: User[] = data?.pages?.flatMap(page => page.users) ?? []
 
   const [showColors, setShowColors] = useState(false)
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE)
   const [filterCountry, setFilterCountry] = useState<string | null>(null)
-
-  const [currentPage, setCurrentPage] = useState(1)
 
   const toogleColors = () => {
     setShowColors(!showColors)
@@ -45,7 +55,7 @@ function App() {
   // Usando useMemo para evitar el redenrizado cuando no es necesario
   const filteredUsers = useMemo(() => {
     return typeof filterCountry === 'string' && filterCountry.length > 0
-      ? users.filter(user => {
+      ? users.filter((user: { location: { country: string } }) => {
           return user.location.country
             .toLowerCase()
             .includes(filterCountry.toLowerCase())
@@ -62,7 +72,7 @@ function App() {
       [SortBy.LAST]: user => user.name.last,
     }
 
-    return filteredUsers.toSorted((a, b) => {
+    return filteredUsers.toSorted((a: User, b: User) => {
       const extractProperty = compareProperties[sorting]
       return extractProperty(a).localeCompare(extractProperty(b))
     })
@@ -72,8 +82,8 @@ function App() {
     // const filterUsers = users.filter(user => user.email !== email)
     // setUsers(filterUsers)
   }
-  const handleReset = async () => {
-    await refetch()
+  const handleReset = () => {
+    void refetch()
   }
   const handleOnchage = (e: ChangeEvent<HTMLInputElement>) => {
     setFilterCountry(e.target.value)
@@ -91,7 +101,7 @@ function App() {
             ? 'No ordenar por país'
             : 'Ordenar por país'}
         </button>
-        <button onClick={() => handleReset}>Reset</button>
+        <button onClick={handleReset}>Reset</button>
         <input
           type='text'
           placeholder='Filtrar por país'
@@ -113,7 +123,7 @@ function App() {
         {!isLoading && !isError && (
           <button
             onClick={() => {
-              setCurrentPage(currentPage + 1)
+              void fetchNextPage()
             }}
           >
             Cargar más resultados
