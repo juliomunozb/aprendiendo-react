@@ -2,44 +2,11 @@ import { useState, type ChangeEvent, useMemo } from 'react'
 import './App.css'
 import { SortBy, type User } from './types.d'
 import { UsersList } from './components/UsersList'
-import { useInfiniteQuery } from '@tanstack/react-query'
-const fetchUsers = async ({ pageParam = 1 }: { pageParam: number }) => {
-  return await fetch(
-    `https://randomuser.me/api/?results=10&seed=users&page=${pageParam}`
-  )
-    .then(async res => {
-      // Validar si ha fallado la peticion asíncrona
-      if (!res.ok) throw new Error('Error en la petición')
-      return await res.json()
-    })
-    .then(res => {
-      const currentPage = Number(res.info.page)
-      const nextCursor = currentPage > 3 ? undefined : currentPage + 1
-
-      return {
-        users: res.results,
-        nextCursor,
-      }
-    })
-}
+import { useUsers } from './hooks/useUsers'
 
 function App() {
-  const { isLoading, isError, data, refetch, fetchNextPage, hasNextPage } =
-    useInfiniteQuery<{
-      nextCursor?: number
-      users: User[]
-    }>(
-      ['users'], // <- la key de la información o de la query
-      async ({ pageParam = 1 }) => await fetchUsers({ pageParam }),
-      {
-        getNextPageParam: lastPage => lastPage.nextCursor,
-      }
-    )
-  console.log(data)
-
-  // flatMap: mapea cada valor a un nuevo valor y el resultado es aplanado a una profundidad máxima de 1.
-  const users: User[] = data?.pages?.flatMap(page => page.users) ?? []
-
+  const { isLoading, isError, users, refetch, fetchNextPage, hasNextPage } =
+    useUsers()
   const [showColors, setShowColors] = useState(false)
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE)
   const [filterCountry, setFilterCountry] = useState<string | null>(null)
