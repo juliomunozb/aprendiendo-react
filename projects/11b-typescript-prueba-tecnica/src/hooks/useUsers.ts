@@ -12,7 +12,7 @@ export const useUsers = () => {
       async ({ pageParam = 1 }) => await fetchUsers({ pageParam }),
       {
         getNextPageParam: lastPage => lastPage.nextCursor,
-        refetchOnWindowFocus: false, // Desactivando el llado a la API cada vez que se regresa al focus de la pagina
+        refetchOnWindowFocus: false, // Desactivando el llamado a la API cada vez que se regresa al focus de la pagina
       }
     )
 

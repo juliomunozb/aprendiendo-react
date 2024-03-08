@@ -3,6 +3,7 @@ import './App.css'
 import { SortBy, type User } from './types.d'
 import { UsersList } from './components/UsersList'
 import { useUsers } from './hooks/useUsers'
+import { Results } from './components/Results'
 
 function App() {
   const { isLoading, isError, users, refetch, fetchNextPage, hasNextPage } =
@@ -62,6 +63,7 @@ function App() {
   return (
     <>
       <h2>Prueba Técnica</h2>
+      <Results />
       <header>
         <button onClick={toogleColors}>Colorear Filas</button>
         <button onClick={toogleSortByCountry}>
