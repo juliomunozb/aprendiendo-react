@@ -47,10 +47,7 @@ function App() {
     })
   }, [filteredUsers, sorting])
 
-  const handleDeleteUser = (email: string) => {
-    // const filterUsers = users.filter(user => user.email !== email)
-    // setUsers(filterUsers)
-  }
+  const handleDeleteUser = (email: string) => {}
   const handleReset = () => {
     void refetch()
   }
@@ -60,10 +57,12 @@ function App() {
   const handleChangeSort = (sort: SortBy) => {
     setSorting(sort)
   }
+
   return (
     <>
       <h2>Prueba Técnica</h2>
       <Results />
+
       <header>
         <button onClick={toogleColors}>Colorear Filas</button>
         <button onClick={toogleSortByCountry}>
