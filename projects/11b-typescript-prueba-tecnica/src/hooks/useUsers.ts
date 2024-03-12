@@ -13,6 +13,9 @@ export const useUsers = () => {
       {
         getNextPageParam: lastPage => lastPage.nextCursor,
         refetchOnWindowFocus: false, // Desactivando el llamado a la API cada vez que se regresa al focus de la pagina
+        // Tiempo en el que los datos son viejos, pasado el tiempo se hace un nuevo fetch para refrescada la data
+        // Sive para aquellos casos en los datos sean muy criticos y deben caducar rapido o en su defecto que no caduden
+        staleTime: 1000 * 3,
       }
     )
 
