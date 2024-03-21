@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
+import { API_URL_ROOT, ACTIONS_PATH } from './utils/const'
 
 export interface Comment {
   title: string
@@ -9,22 +10,40 @@ export interface CommentWithId extends Comment {
   id: string
 }
 export const getComments = async () => {
-  const respoonse = await fetch(
-    'https://api.jsonbin.io/v3/b/65fb38aadc74654018b5d2d1',
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': import.meta.env.VITE_X_MASTER_KEY, // se agrega el simbolo \ antes del caracter especial $
-        'X-Access-Key': import.meta.env.VITE_X_ACCESS_KEY,
-      },
-    }
-  )
+  const respoonse = await fetch(`${API_URL_ROOT}${ACTIONS_PATH.GET}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': import.meta.env.VITE_X_MASTER_KEY, // se agrega el simbolo \ antes del caracter especial $
+      'X-Access-Key': import.meta.env.VITE_X_ACCESS_KEY,
+    },
+  })
   if (!respoonse.ok) {
     throw new Error('Failed to fetch comment')
   }
   const json = await respoonse.json()
   return json?.record
+}
+
+export const postComment = async (comment: Comment) => {
+  const comments = await getComments()
+  const id = crypto.randomUUID()
+  const newComment = { ...comment, id }
+  const commentsToSave = [...comments, newComment]
+  const response = await fetch(`${API_URL_ROOT}${ACTIONS_PATH.PUT}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': import.meta.env.VITE_X_MASTER_KEY, // se agrega el simbolo \ antes del caracter especial $
+      'X-Access-Key': import.meta.env.VITE_X_ACCESS_KEY,
+    },
+    body: JSON.stringify(commentsToSave),
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to post comment')
+  }
+  return newComment
 }
 
 function App() {
@@ -40,6 +59,24 @@ function App() {
       })
   }, [])
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const title = formData.get('title')?.toString() ?? ''
+    const message = formData.get('message')?.toString() ?? ''
+    const newMessage = { title, message }
+    console.log(typeof crypto.randomUUID())
+    if (title !== '' && message !== '') {
+      postComment(newMessage)
+        .then(response => {
+          setData([...data, response])
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  }
+
   return (
     <main>
       <div className='comments'>
@@ -53,13 +90,13 @@ function App() {
         </ul>
       </div>
       <div className='create-comments'>
-        <form action=''>
+        <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor='title'></label>
-            <input type='text' id='title' placeholder='title' />
+            <input type='text' id='title' name='title' placeholder='title' />
           </div>
           <div>
-            <textarea placeholder='comment'></textarea>
+            <textarea name='message' placeholder='comment'></textarea>
           </div>
           <button>Send comment</button>
         </form>
