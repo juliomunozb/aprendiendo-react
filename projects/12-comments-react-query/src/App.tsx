@@ -55,6 +55,19 @@ function App() {
   const queryClient = useQueryClient()
   const { mutate, isPending: isLoadingMutation } = useMutation({
     mutationFn: async (comment: Comment) => await postComment(comment),
+    onMutate: async newComment => {
+      // Guardando el estado previo
+      // por si se necesita hacer un rollback
+      const previousComments = queryClient.getQueryData(['comments'])
+      queryClient.setQueriesData(
+        { queryKey: ['comments'] },
+        (oldData?: Comment[]) => {
+          if (oldData == null) return [newComment]
+          return [...oldData, newComment]
+        }
+      )
+      return { previousComments } // --> context
+    },
     onSuccess: async newComment => {
       // 1. Actualizar el cache de react query manualmente
       /* queryClient.setQueriesData(
@@ -65,9 +78,9 @@ function App() {
         }
       ) */
       // 2. Hacer otra vez un refresh de la query
-      await queryClient.invalidateQueries({
+      /* await queryClient.invalidateQueries({
         queryKey: ['comments'],
-      })
+      }) */
     },
   })
 
