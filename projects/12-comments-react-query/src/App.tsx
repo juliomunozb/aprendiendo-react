@@ -1,5 +1,5 @@
 import './App.css'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { API_URL_ROOT, ACTIONS_PATH } from './utils/const'
 
 export interface Comment {
@@ -52,6 +52,10 @@ function App() {
     queryFn: getComments,
   })
 
+  const { mutate } = useMutation({
+    mutationFn: async (comment: Comment) => await postComment(comment),
+  })
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
@@ -60,6 +64,7 @@ function App() {
     const newMessage = { title, message }
     if (title !== '' && message !== '') {
       console.log(newMessage)
+      mutate(newMessage)
     }
   }
 
