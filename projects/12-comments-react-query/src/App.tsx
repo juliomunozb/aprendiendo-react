@@ -5,6 +5,7 @@ import { API_URL_ROOT, ACTIONS_PATH } from './utils/const'
 export interface Comment {
   title: string
   message: string
+  preview?: boolean
 }
 export interface CommentWithId extends Comment {
   id: string
@@ -66,8 +67,10 @@ function App() {
       queryClient.setQueriesData(
         { queryKey: ['comments'] },
         (oldData?: Comment[]) => {
-          if (oldData == null) return [newComment]
-          return [...oldData, newComment]
+          const newCommentToAdd = structuredClone(newComment)
+          newCommentToAdd.preview = true
+          if (oldData == null) return [newCommentToAdd]
+          return [...oldData, newCommentToAdd]
         }
       )
       return { previousComments } // --> context
@@ -121,7 +124,12 @@ function App() {
 
         <ul className='list-comments'>
           {data?.map(comment => (
-            <li key={comment.id}>
+            <li
+              key={comment.id}
+              style={{
+                background: comment.preview === true ? '#3D613D' : '#FFFFFF',
+              }}
+            >
               <h4>{comment.title}</h4>
               {comment.message}
             </li>
