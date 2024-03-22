@@ -52,11 +52,12 @@ function App() {
     queryFn: getComments,
   })
 
-  const { mutate } = useMutation({
+  const { mutate, isPending: isLoadingMutation } = useMutation({
     mutationFn: async (comment: Comment) => await postComment(comment),
   })
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    if (isLoadingMutation) return
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     const title = formData.get('title')?.toString() ?? ''
@@ -84,15 +85,30 @@ function App() {
         </ul>
       </div>
       <div className='create-comments'>
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ opacity: isLoadingMutation ? '0.55' : '' }}
+        >
           <div>
             <label htmlFor='title'></label>
-            <input type='text' id='title' name='title' placeholder='title' />
+            <input
+              type='text'
+              id='title'
+              name='title'
+              placeholder='title'
+              disabled={isLoadingMutation}
+            />
           </div>
           <div>
-            <textarea name='message' placeholder='comment'></textarea>
+            <textarea
+              name='message'
+              placeholder='comment'
+              disabled={isLoadingMutation}
+            ></textarea>
           </div>
-          <button>Send comment</button>
+          <button disabled={isLoadingMutation}>
+            {isLoadingMutation ? 'sending Comment' : 'send Comment'}
+          </button>
         </form>
       </div>
     </main>
