@@ -26,8 +26,8 @@ export const getComments = async () => {
 const delay = async (ms: number) =>
   await new Promise(resolve => setTimeout(resolve, ms))
 export const postComment = async (comment: Comment) => {
-  /* await delay(1000)
-  throw new Error('Error') */
+  await delay(1000)
+  /* throw new Error('Error') */
   const comments = await getComments()
   const id = crypto.randomUUID()
   const newComment = { ...comment, id }

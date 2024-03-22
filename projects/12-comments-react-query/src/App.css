@@ -29,3 +29,15 @@ main {
 .list-comments {
   list-style: none;
 }
+.article {
+  border-radius: 5px;
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+  background-color: azure;
+  padding: 2px;
+}
+
+.article-preview {
+  background-color: antiquewhite;
+}

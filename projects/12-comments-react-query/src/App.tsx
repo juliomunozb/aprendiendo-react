@@ -4,6 +4,7 @@ import {
   type CommentWithId,
   postComment,
 } from './service/comments'
+import { Result } from './components/Result'
 import './App.css'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
@@ -78,19 +79,7 @@ function App() {
         {isLoading && <strong>Cargando..</strong>}
         {error !== null && <strong>Algo salió mal</strong>}
 
-        <ul className='list-comments'>
-          {data?.map(comment => (
-            <li
-              key={comment.id}
-              style={{
-                background: comment.preview === true ? '#3D613D' : '#FFFFFF',
-              }}
-            >
-              <h4>{comment.title}</h4>
-              {comment.message}
-            </li>
-          ))}
-        </ul>
+        <Result data={data} />
       </div>
       <div className='create-comments'>
         <form
