@@ -57,13 +57,17 @@ function App() {
     mutationFn: async (comment: Comment) => await postComment(comment),
     onSuccess: async newComment => {
       // 1. Actualizar el cache de react query manualmente
-      queryClient.setQueriesData(
+      /* queryClient.setQueriesData(
         { queryKey: ['comments'] },
         (oldData?: CommentWithId[]) => {
           if (oldData == null) return [newComment]
           return [...oldData, newComment]
         }
-      )
+      ) */
+      // 2. Hacer otra vez un refresh de la query
+      await queryClient.invalidateQueries({
+        queryKey: ['comments'],
+      })
     },
   })
 
