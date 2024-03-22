@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
 import './App.css'
+import { useQuery } from '@tanstack/react-query'
 import { API_URL_ROOT, ACTIONS_PATH } from './utils/const'
 
 export interface Comment {
@@ -47,17 +47,10 @@ export const postComment = async (comment: Comment) => {
 }
 
 function App() {
-  const [data, setData] = useState<CommentWithId[]>([])
-
-  useEffect(() => {
-    getComments()
-      .then(response => {
-        setData(response)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }, [])
+  const { data, isLoading, error } = useQuery<CommentWithId[]>({
+    queryKey: ['comments'],
+    queryFn: getComments,
+  })
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -65,23 +58,19 @@ function App() {
     const title = formData.get('title')?.toString() ?? ''
     const message = formData.get('message')?.toString() ?? ''
     const newMessage = { title, message }
-    console.log(typeof crypto.randomUUID())
     if (title !== '' && message !== '') {
-      postComment(newMessage)
-        .then(response => {
-          setData([...data, response])
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      console.log(newMessage)
     }
   }
 
   return (
     <main>
       <div className='comments'>
+        {isLoading && <strong>Cargando..</strong>}
+        {error !== null && <strong>Algo salió mal</strong>}
+
         <ul className='list-comments'>
-          {data.map(comment => (
+          {data?.map(comment => (
             <li key={comment.id}>
               <h4>{comment.title}</h4>
               {comment.message}
