@@ -25,7 +25,11 @@ export const getComments = async () => {
   return json?.record
 }
 
+const delay = async (ms: number) =>
+  await new Promise(resolve => setTimeout(resolve, ms))
 export const postComment = async (comment: Comment) => {
+  await delay(1000)
+  throw new Error('Error')
   const comments = await getComments()
   const id = crypto.randomUUID()
   const newComment = { ...comment, id }
@@ -67,6 +71,18 @@ function App() {
         }
       )
       return { previousComments } // --> context
+    },
+    onError: (error, variables, context) => {
+      console.error(error)
+      if (context?.previousComments != null) {
+        queryClient.setQueriesData(
+          { queryKey: ['comments'] },
+          context?.previousComments
+        )
+      }
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['comments'] })
     },
     onSuccess: async newComment => {
       // 1. Actualizar el cache de react query manualmente
