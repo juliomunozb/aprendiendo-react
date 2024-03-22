@@ -1,5 +1,5 @@
 import './App.css'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { API_URL_ROOT, ACTIONS_PATH } from './utils/const'
 
 export interface Comment {
@@ -52,8 +52,19 @@ function App() {
     queryFn: getComments,
   })
 
+  const queryClient = useQueryClient()
   const { mutate, isPending: isLoadingMutation } = useMutation({
     mutationFn: async (comment: Comment) => await postComment(comment),
+    onSuccess: async newComment => {
+      // 1. Actualizar el cache de react query manualmente
+      queryClient.setQueriesData(
+        { queryKey: ['comments'] },
+        (oldData?: CommentWithId[]) => {
+          if (oldData == null) return [newComment]
+          return [...oldData, newComment]
+        }
+      )
+    },
   })
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
