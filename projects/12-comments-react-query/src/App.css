@@ -15,7 +15,9 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  align-content: center;
+  align-content: stretch;
+  flex-wrap: wrap;
+  padding-right: 15px;
 }
 .create-comments {
   display: flex;

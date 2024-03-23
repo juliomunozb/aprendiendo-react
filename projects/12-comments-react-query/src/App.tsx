@@ -7,6 +7,7 @@ import {
 import { Result } from './components/Result'
 import './App.css'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { FormInput, FormTextArea } from './components/Form'
 
 function App() {
   const { data, isLoading, error } = useQuery<CommentWithId[]>({
@@ -45,6 +46,8 @@ function App() {
       await queryClient.invalidateQueries({ queryKey: ['comments'] })
     },
     onSuccess: async newComment => {
+      console.log('onSucces:', newComment)
+
       // 1. Actualizar el cache de react query manualmente
       /* queryClient.setQueriesData(
         { queryKey: ['comments'] },
@@ -86,23 +89,9 @@ function App() {
           onSubmit={handleSubmit}
           style={{ opacity: isLoadingMutation ? '0.55' : '' }}
         >
-          <div>
-            <label htmlFor='title'></label>
-            <input
-              type='text'
-              id='title'
-              name='title'
-              placeholder='title'
-              disabled={isLoadingMutation}
-            />
-          </div>
-          <div>
-            <textarea
-              name='message'
-              placeholder='comment'
-              disabled={isLoadingMutation}
-            ></textarea>
-          </div>
+          <FormInput isLoadingMutation={isLoadingMutation} />
+          <FormTextArea isLoadingMutation={isLoadingMutation} />
+
           <button disabled={isLoadingMutation}>
             {isLoadingMutation ? 'sending Comment' : 'send Comment'}
           </button>
