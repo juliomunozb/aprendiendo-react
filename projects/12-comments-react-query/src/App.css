@@ -7,8 +7,11 @@
 main {
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: start;
   width: 100%;
+  max-width: 600px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .comments {
@@ -17,7 +20,8 @@ main {
   align-items: center;
   align-content: stretch;
   flex-wrap: wrap;
-  padding-right: 15px;
+  padding: 0 15px;
+  width: 380px;
 }
 .create-comments {
   display: flex;
@@ -26,6 +30,10 @@ main {
   align-items: center;
   background-color: black;
   padding: 30px;
+  color: #fff;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 }
 
 .list-comments {

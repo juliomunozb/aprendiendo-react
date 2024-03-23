@@ -74,7 +74,6 @@ function App() {
     const message = formData.get('message')?.toString() ?? ''
     const newMessage = { title, message }
     if (title !== '' && message !== '') {
-      console.log(newMessage)
       mutate(newMessage)
     }
   }

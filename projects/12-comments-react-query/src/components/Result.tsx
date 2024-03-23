@@ -3,10 +3,9 @@ import { type CommentWithId } from '../service/comments'
 export const Result = ({ data }: { data?: CommentWithId[] }) => {
   return (
     <ul className='list-comments'>
-      <li>
-        {data?.map(comment => (
+      {data?.map(comment => (
+        <li key={comment.id}>
           <article
-            key={comment.id}
             className={
               comment.preview === true ? 'article-preview article' : 'article'
             }
@@ -14,8 +13,8 @@ export const Result = ({ data }: { data?: CommentWithId[] }) => {
             <h5>{comment.title}</h5>
             <p>{comment.message}</p>
           </article>
-        ))}
-      </li>
+        </li>
+      ))}
     </ul>
   )
 }
