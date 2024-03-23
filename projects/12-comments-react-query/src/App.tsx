@@ -8,8 +8,10 @@ import { Result } from './components/Result'
 import './App.css'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { FormInput, FormTextArea } from './components/Form'
+import { useRef } from 'react'
 
 function App() {
+  const refForm = useRef<null | HTMLFormElement>(null)
   const { data, isLoading, error } = useQuery<CommentWithId[]>({
     queryKey: ['comments'],
     queryFn: getComments,
@@ -46,6 +48,7 @@ function App() {
       await queryClient.invalidateQueries({ queryKey: ['comments'] })
     },
     onSuccess: async newComment => {
+      refForm.current?.reset()
       console.log('onSucces:', newComment)
 
       // 1. Actualizar el cache de react query manualmente
@@ -87,6 +90,7 @@ function App() {
       <div className='create-comments'>
         <form
           onSubmit={handleSubmit}
+          ref={refForm}
           style={{ opacity: isLoadingMutation ? '0.55' : '' }}
         >
           <FormInput isLoadingMutation={isLoadingMutation} />
